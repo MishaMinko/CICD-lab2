@@ -35,13 +35,20 @@ class Ship:
 
 class Guns:
     def __init__(self, imgPath, pos, size, offset):
-        self.image = loadImage(imgPath, size, True)
+        self.orig_image = loadImage(imgPath, size, True)
+        self.image = self.orig_image
         self.offset = offset
         self.rect = self.image.get_rect(center=pos)
 
 
     def update(self, ship):
-        self.rect.center = (ship.rect.centerx, ship.rect.centery + (ship.image.get_height()//2 * self.offset))
+        if ship.rotation == False:
+            self.rect.center = (ship.rect.centerx, ship.rect.centery + (ship.image.get_height()//2 * self.offset))
+            self.image = pygame.transform.rotate(self.orig_image, -270)
+        else:
+            self.rect.center = (ship.rect.centerx + (ship.image.get_width()//2 * -self.offset), ship.rect.centery)
+            self.image = pygame.transform.rotate(self.orig_image, -0)
+        self.rect = self.image.get_rect(center=self.rect.center)
 
 
     def draw(self, window, ship):
@@ -49,6 +56,8 @@ class Guns:
         window.blit(self.image, self.rect)
 
 
+
+#functions to work
 def loadImage(path, size, rotate=False):
     img = pygame.image.load(path).convert_alpha()
     img = pygame.transform.scale(img, size)
