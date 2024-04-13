@@ -70,6 +70,11 @@ def loadImage(path, size, rotate=False):
     return img
 
 
+def sortFleet(ship, shiplist):
+    shiplist.remove(ship)
+    shiplist.append(ship)
+
+
 def createFleet():
     fleet = []
     for name in FLEET.keys():
@@ -132,6 +137,7 @@ while RUNGAME:
                 for ship in pFleet:
                     if ship.rect.collidepoint(pygame.mouse.get_pos()):
                         ship.active = True
+                        sortFleet(ship, pFleet)
                         ship.selectShipAndMove(updater)
     
     updater.updateGameScreen()
