@@ -39,7 +39,29 @@ class Ship:
                         if event.button == 1:
                             self.hImageRect.center = self.vImageRect.center = self.rect.center
                             self.active = False
+
+                    if event.button == 3:
+                        self.rotateShip()
     
+
+    def rotateShip(self, doRotation=False):
+        if self.active or doRotation == True:
+            if self.rotation == False:
+                self.rotation = True
+            else:
+                self.rotation = False
+            self.rotateImageAndRect()
+
+
+    def rotateImageAndRect(self):
+        if self.rotation == True:
+            self.image = self.hImage
+            self.rect = self.hImageRect
+        else:
+            self.image = self.vImage
+            self.rect = self.vImageRect
+        self.hImageRect.center = self.vImageRect.center = self.rect.center
+
 
     def checkForCollisions(self, shiplist):
         slist = shiplist.copy()
@@ -78,7 +100,10 @@ class Ship:
             for cell in rowX:
                 if self.rect.left >= cell[0] and self.rect.left < cell[0] + CELLSIZE \
                     and self.rect.top >= cell[1] and self.rect.top < cell[1] + CELLSIZE:
-                    self.rect.topleft = (cell[0] + (CELLSIZE - self.image.get_width())//2, cell[1])
+                    if self.rotation == False:
+                        self.rect.topleft = (cell[0] + (CELLSIZE - self.image.get_width())//2, cell[1])
+                    else:
+                        self.rect.topleft = (cell[0], cell[1] + (CELLSIZE - self.image.get_height())//2)
 
         self.hImageRect.center = self.vImageRect.center = self.rect.center 
 
