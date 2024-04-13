@@ -15,7 +15,8 @@ class GameUpdater:
 
         for ship in pFleet:
             ship.draw(self.window)
-            ship.magnetToGridEdge(pGameGrid)
+            ship.magnetToGridEdge(pGameGrid, CELLSIZE)
+            ship.magnetToGrid(pGameGrid, CELLSIZE)
 
         pygame.display.update()
 
@@ -92,6 +93,7 @@ CELLSIZE = 50
 
 
 #pygame display
+updater = GameUpdater()
 pygame.display.set_caption('BattleShip')
 
 current_directory = os.path.dirname(__file__)
@@ -114,8 +116,6 @@ FLEET = {
 
 
 #creating game variables
-updater = GameUpdater()
-
 pGameGrid = createGameGrid(ROWS, COLS, CELLSIZE, (50, 50))
 pGameLogic = createGameLogic(ROWS, COLS)
 pFleet = createFleet()

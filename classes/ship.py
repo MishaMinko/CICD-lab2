@@ -55,24 +55,32 @@ class Ship:
         self.hImageRect.center = self.vImageRect.center = self.rect.center
 
 
-    def magnetToGridEdge(self, gridCoords):
-        if self.rect.left > gridCoords[0][-1][0] + 50 or \
+    def magnetToGridEdge(self, gridCoords, CELLSIZE):
+        if self.rect.left > gridCoords[0][-1][0] + CELLSIZE or \
             self.rect.right < gridCoords[0][0][0] or \
-            self.rect.top > gridCoords[-1][0][1] + 50 or \
+            self.rect.top > gridCoords[-1][0][1] + CELLSIZE or \
             self.rect.bottom < gridCoords[0][0][1]:
             self.setDefaultPosition()
 
-        elif self.rect.right > gridCoords[0][-1][0] + 50:
-            self.rect.right = gridCoords[0][-1][0] + 50
+        elif self.rect.right > gridCoords[0][-1][0] + CELLSIZE:
+            self.rect.right = gridCoords[0][-1][0] + CELLSIZE
         elif self.rect.left < gridCoords[0][0][0]:
             self.rect.left = gridCoords[0][0][0]
         elif self.rect.top < gridCoords[0][0][1]:
             self.rect.top = gridCoords[0][0][1]
-        elif self.rect.bottom > gridCoords[-1][0][1] + 50:
-            self.rect.bottom = gridCoords[-1][0][1] + 50
+        elif self.rect.bottom > gridCoords[-1][0][1] + CELLSIZE:
+            self.rect.bottom = gridCoords[-1][0][1] + CELLSIZE
         self.vImageRect.center = self.hImageRect.center = self.rect.center
 
-        
+
+    def magnetToGrid(self, gridCoords, CELLSIZE):
+        for rowX in gridCoords:
+            for cell in rowX:
+                if self.rect.left >= cell[0] and self.rect.left < cell[0] + CELLSIZE \
+                    and self.rect.top >= cell[1] and self.rect.top < cell[1] + CELLSIZE:
+                    self.rect.topleft = (cell[0] + (CELLSIZE - self.image.get_width())//2, cell[1])
+
+        self.hImageRect.center = self.vImageRect.center = self.rect.center 
 
 
     def draw(self, window):
