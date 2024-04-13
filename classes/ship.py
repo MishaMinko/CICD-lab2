@@ -73,6 +73,9 @@ class Ship:
 
 
     def setDefaultPosition(self):
+        if self.rotation == True:
+            self.rotateShip(True)
+
         self.rect.topleft = self.pos
         self.hImageRect.center = self.vImageRect.center = self.rect.center
 
