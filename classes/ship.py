@@ -28,16 +28,26 @@ class Ship:
                 self.gunList.append(Guns(gunPath, self.rect.center, (size[0] * gunSize[0], size[1] * gunSize[1]), self.gunCoords[i]))
 
     
-    def selectShipAndMove(self, updater):
+    def selectShipAndMove(self, updater, shiplist):
         while self.active == True:
             self.rect.center = pygame.mouse.get_pos()
             updater.updateGameScreen()
             for event in pygame.event.get():
                 if event.type == pygame.MOUSEBUTTONDOWN:
-                    if event.button == 1:
-                        self.hImageRect.center = self.vImageRect.center = self.rect.center
-                        self.active = False
+                    if not self.checkForCollisions(shiplist):
+                        if event.button == 1:
+                            self.hImageRect.center = self.vImageRect.center = self.rect.center
+                            self.active = False
     
+
+    def checkForCollisions(self, shiplist):
+        slist = shiplist.copy()
+        slist.remove(self)
+        for item in slist:
+            if self.rect.colliderect(item.rect):
+                return True
+        return False
+
 
     def draw(self, window):
         window.blit(self.image, self.rect)

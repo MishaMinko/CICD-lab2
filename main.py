@@ -138,7 +138,7 @@ while RUNGAME:
                     if ship.rect.collidepoint(pygame.mouse.get_pos()):
                         ship.active = True
                         sortFleet(ship, pFleet)
-                        ship.selectShipAndMove(updater)
+                        ship.selectShipAndMove(updater, pFleet)
     
     updater.updateGameScreen()
 
