@@ -3,6 +3,7 @@ import pygame
 class Ship:
     def __init__(self, name, img, pos, size, numGuns=0, gunPath=None, gunSize=None, gunCoords=None):
         self.name = name
+        self.pos = pos
         #vertical image
         self.vImage = loadImage(img, size)
         self.vImageWidth = self.vImage.get_width()
@@ -47,6 +48,31 @@ class Ship:
             if self.rect.colliderect(item.rect):
                 return True
         return False
+
+
+    def setDefaultPosition(self):
+        self.rect.topleft = self.pos
+        self.hImageRect.center = self.vImageRect.center = self.rect.center
+
+
+    def magnetToGridEdge(self, gridCoords):
+        if self.rect.left > gridCoords[0][-1][0] + 50 or \
+            self.rect.right < gridCoords[0][0][0] or \
+            self.rect.top > gridCoords[-1][0][1] + 50 or \
+            self.rect.bottom < gridCoords[0][0][1]:
+            self.setDefaultPosition()
+
+        elif self.rect.right > gridCoords[0][-1][0] + 50:
+            self.rect.right = gridCoords[0][-1][0] + 50
+        elif self.rect.left < gridCoords[0][0][0]:
+            self.rect.left = gridCoords[0][0][0]
+        elif self.rect.top < gridCoords[0][0][1]:
+            self.rect.top = gridCoords[0][0][1]
+        elif self.rect.bottom > gridCoords[-1][0][1] + 50:
+            self.rect.bottom = gridCoords[-1][0][1] + 50
+        self.vImageRect.center = self.hImageRect.center = self.rect.center
+
+        
 
 
     def draw(self, window):

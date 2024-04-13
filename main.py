@@ -15,6 +15,7 @@ class GameUpdater:
 
         for ship in pFleet:
             ship.draw(self.window)
+            ship.magnetToGridEdge(pGameGrid)
 
         pygame.display.update()
 
