@@ -4,6 +4,21 @@ import pygame, random, os
 pygame.init()
 
 
+class GameUpdater:
+    def __init__(self):
+        self.window = pygame.display.set_mode((SCREENWIDTH, SCREENHEIGHT))
+
+    def updateGameScreen(self):
+        self.window.fill((0, 0, 0))
+
+        showGridOnScreen(self.window, CELLSIZE, pGameGrid, cGameGrid)
+
+        for ship in pFleet:
+            ship.draw(self.window)
+
+        pygame.display.update()
+
+
 #game functions
 def createGameGrid(rows, cols, cellsize, pos):
     startX = pos[0]
@@ -62,17 +77,6 @@ def createFleet():
     return fleet
 
 
-def updateGameScreen(window):
-    window.fill((0, 0, 0))
-
-    showGridOnScreen(window, CELLSIZE, pGameGrid, cGameGrid)
-
-    for ship in pFleet:
-        ship.draw(window)
-
-    pygame.display.update()
-
-
 #game settings
 SCREENWIDTH = 1260
 SCREENHEIGHT = 960
@@ -82,7 +86,6 @@ CELLSIZE = 50
 
 
 #pygame display
-GAMESCREEN = pygame.display.set_mode((SCREENWIDTH, SCREENHEIGHT))
 pygame.display.set_caption('BattleShip')
 
 current_directory = os.path.dirname(__file__)
@@ -105,6 +108,8 @@ FLEET = {
 
 
 #creating game variables
+updater = GameUpdater()
+
 pGameGrid = createGameGrid(ROWS, COLS, CELLSIZE, (50, 50))
 pGameLogic = createGameLogic(ROWS, COLS)
 pFleet = createFleet()
@@ -122,7 +127,13 @@ while RUNGAME:
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             RUNGAME = False
+        elif event.type == pygame.MOUSEBUTTONDOWN:
+            if event.button == 1:
+                for ship in pFleet:
+                    if ship.rect.collidepoint(pygame.mouse.get_pos()):
+                        ship.active = True
+                        ship.selectShipAndMove(updater)
     
-    updateGameScreen(GAMESCREEN)
+    updater.updateGameScreen()
 
 pygame.quit()

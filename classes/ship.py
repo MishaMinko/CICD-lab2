@@ -19,6 +19,7 @@ class Ship:
         self.image = self.vImage
         self.rect = self.vImageRect
         self.rotation = False
+        self.active = False
         #guns
         self.gunList = []
         if numGuns > 0:
@@ -27,6 +28,17 @@ class Ship:
                 self.gunList.append(Guns(gunPath, self.rect.center, (size[0] * gunSize[0], size[1] * gunSize[1]), self.gunCoords[i]))
 
     
+    def selectShipAndMove(self, updater):
+        while self.active == True:
+            self.rect.center = pygame.mouse.get_pos()
+            updater.updateGameScreen()
+            for event in pygame.event.get():
+                if event.type == pygame.MOUSEBUTTONDOWN:
+                    if event.button == 1:
+                        self.hImageRect.center = self.vImageRect.center = self.rect.center
+                        self.active = False
+    
+
     def draw(self, window):
         window.blit(self.image, self.rect)
         for guns in self.gunList:
