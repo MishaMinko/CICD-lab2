@@ -5,31 +5,6 @@ import pygame, random, os
 pygame.init()
 
 
-class GameUpdater:
-    def __init__(self):
-        self.window = pygame.display.set_mode((SCREENWIDTH, SCREENHEIGHT))
-
-    def updateGameScreen(self):
-        self.window.fill((0, 0, 0))
-
-        showGridOnScreen(self.window, CELLSIZE, pGameGrid, cGameGrid)
-
-        for ship in pFleet:
-            ship.draw(self.window)
-            ship.magnetToGridEdge(pGameGrid, CELLSIZE)
-            ship.magnetToGrid(pGameGrid, CELLSIZE)
-
-        for ship in cFleet:
-            ship.draw(self.window)
-            ship.magnetToGridEdge(cGameGrid, CELLSIZE)
-            ship.magnetToGrid(cGameGrid, CELLSIZE)
-
-        for button in BUTTONS:
-            button.draw(self.window)
-
-        pygame.display.update()
-
-
 #game functions
 def createGameGrid(rows, cols, cellsize, pos):
     startX = pos[0]
@@ -116,8 +91,29 @@ def randomizeShipPositions(shiplist, gamegrid):
 def createFleet():
     fleet = []
     for name in FLEET.keys():
-        fleet.append(Ship(name, FLEET[name][1], FLEET[name][2], FLEET[name][3], FLEET[name][4], FLEET[name][5], FLEET[name][6], FLEET[name][7]))
+        fleet.append(Ship(globals(),name, FLEET[name][1], FLEET[name][2], FLEET[name][3], FLEET[name][4], FLEET[name][5], FLEET[name][6], FLEET[name][7]))
     return fleet
+
+
+def updateGameScreen(window):
+    window.fill((0, 0, 0))
+
+    showGridOnScreen(window, CELLSIZE, pGameGrid, cGameGrid)
+
+    for ship in pFleet:
+        ship.draw(window)
+        ship.magnetToGridEdge(pGameGrid, CELLSIZE)
+        ship.magnetToGrid(pGameGrid, CELLSIZE)
+
+    for ship in cFleet:
+        ship.draw(window)
+        ship.magnetToGridEdge(cGameGrid, CELLSIZE)
+        ship.magnetToGrid(cGameGrid, CELLSIZE)
+
+    for button in BUTTONS:
+        button.draw(window)
+
+    pygame.display.update()
 
 
 #game settings
@@ -129,7 +125,7 @@ CELLSIZE = 50
 
 
 #pygame display
-updater = GameUpdater()
+GAMESCREEN = pygame.display.set_mode((SCREENWIDTH, SCREENHEIGHT))
 pygame.display.set_caption('BattleShip')
 
 current_directory = os.path.dirname(__file__)
@@ -152,7 +148,7 @@ FLEET = {
 
 BUTTONIMAGE = loadImage(os.path.join(current_directory, 'assets', 'images', 'buttons', 'button.png'), (150, 50))
 BUTTONS = [
-    Button(BUTTONIMAGE, (150, 50), (25, 900), 'Randomize')
+    Button(BUTTONIMAGE, (150, 50), (25, 900), 'Randomize', globals())
 ]
 
 
@@ -181,8 +177,12 @@ while RUNGAME:
                     if ship.rect.collidepoint(pygame.mouse.get_pos()):
                         ship.active = True
                         sortFleet(ship, pFleet)
-                        ship.selectShipAndMove(updater, pFleet)
+                        ship.selectShipAndMove(pFleet)
+
+                for button in BUTTONS:
+                    if button.rect.collidepoint(pygame.mouse.get_pos()):
+                        button.actionOnPress()
     
-    updater.updateGameScreen()
+    updateGameScreen(GAMESCREEN)
 
 pygame.quit()

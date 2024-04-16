@@ -1,11 +1,13 @@
 import pygame
 
 class Ship:
-    def __init__(self, name, img, pos, size, numGuns=0, gunPath=None, gunSize=None, gunCoords=None):
+    def __init__(self, globals, name, img, pos, size, numGuns=0, gunPath=None, gunSize=None, gunCoords=None):
+        self.globals = globals
+
         self.name = name
         self.pos = pos
         #vertical image
-        self.vImage = loadImage(img, size)
+        self.vImage = self.globals['loadImage'](img, size)
         self.vImageWidth = self.vImage.get_width()
         self.vImageHeight = self.vImage.get_height()
         self.vImageRect = self.vImage.get_rect()
@@ -26,13 +28,13 @@ class Ship:
         if numGuns > 0:
             self.gunCoords = gunCoords
             for i in range(numGuns):
-                self.gunList.append(Guns(gunPath, self.rect.center, (size[0] * gunSize[0], size[1] * gunSize[1]), self.gunCoords[i]))
+                self.gunList.append(Guns(gunPath, self.rect.center, (size[0] * gunSize[0], size[1] * gunSize[1]), self.gunCoords[i], self.globals['loadImage']))
 
     
-    def selectShipAndMove(self, updater, shiplist):
+    def selectShipAndMove(self, shiplist):
         while self.active == True:
             self.rect.center = pygame.mouse.get_pos()
-            updater.updateGameScreen()
+            self.globals['updateGameScreen'](self.globals['GAMESCREEN'])
             for event in pygame.event.get():
                 if event.type == pygame.MOUSEBUTTONDOWN:
                     if not self.checkForCollisions(shiplist):
@@ -118,7 +120,7 @@ class Ship:
 
 
 class Guns:
-    def __init__(self, imgPath, pos, size, offset):
+    def __init__(self, imgPath, pos, size, offset, loadImage):
         self.orig_image = loadImage(imgPath, size, True)
         self.image = self.orig_image
         self.offset = offset
@@ -138,13 +140,3 @@ class Guns:
     def draw(self, window, ship):
         self.update(ship)
         window.blit(self.image, self.rect)
-
-
-
-#functions to work
-def loadImage(path, size, rotate=False):
-    img = pygame.image.load(path).convert_alpha()
-    img = pygame.transform.scale(img, size)
-    if rotate == True:
-        img = pygame.transform.rotate(img, -90)
-    return img

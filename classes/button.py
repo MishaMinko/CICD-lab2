@@ -1,7 +1,7 @@
 import pygame
 
 class Button:
-    def __init__(self, image, size, pos, msg):
+    def __init__(self, image, size, pos, msg, globals):
         self.name = msg
         self.image = image
         self.imageLarger = self.image
@@ -12,6 +12,8 @@ class Button:
 
         self.msg = self.addText(msg)
         self.msgRect = self.msg.get_rect(center=self.rect.center)
+
+        self.globals = globals
 
     
     def addText(self, msg):
@@ -26,6 +28,12 @@ class Button:
         else:
             window.blit(self.image, self.rect)
     
+
+    def actionOnPress(self):
+        if self.name == 'Randomize':
+            self.globals['randomizeShipPositions'](self.globals['pFleet'], self.globals['pGameGrid'])
+            self.globals['randomizeShipPositions'](self.globals['cFleet'], self.globals['cGameGrid'])
+
 
     def draw(self, window):
         self.focusOnButton(window)
