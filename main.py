@@ -183,11 +183,12 @@ while RUNGAME:
             RUNGAME = False
         elif event.type == pygame.MOUSEBUTTONDOWN:
             if event.button == 1:
-                for ship in pFleet:
-                    if ship.rect.collidepoint(pygame.mouse.get_pos()):
-                        ship.active = True
-                        sortFleet(ship, pFleet)
-                        ship.selectShipAndMove(pFleet)
+                if DEPLOYMENT == True:
+                    for ship in pFleet:
+                        if ship.rect.collidepoint(pygame.mouse.get_pos()):
+                            ship.active = True
+                            sortFleet(ship, pFleet)
+                            ship.selectShipAndMove(pFleet)
 
                 for button in BUTTONS:
                     if button.rect.collidepoint(pygame.mouse.get_pos()):
