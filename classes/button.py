@@ -33,6 +33,9 @@ class Button:
         if self.name == 'Randomize':
             self.globals['randomizeShipPositions'](self.globals['pFleet'], self.globals['pGameGrid'])
             self.globals['randomizeShipPositions'](self.globals['cFleet'], self.globals['cGameGrid'])
+        elif self.name == 'Reset':
+            for ship in self.globals['pFleet']:
+                ship.setDefaultPosition()
 
 
     def draw(self, window):

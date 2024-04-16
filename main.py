@@ -148,7 +148,8 @@ FLEET = {
 
 BUTTONIMAGE = loadImage(os.path.join(current_directory, 'assets', 'images', 'buttons', 'button.png'), (150, 50))
 BUTTONS = [
-    Button(globals(), BUTTONIMAGE, (150, 50), (25, 900), 'Randomize')
+    Button(globals(), BUTTONIMAGE, (150, 50), (25, 900), 'Randomize'),
+    Button(globals(), BUTTONIMAGE, (150, 50), (200, 900), 'Reset')
 ]
 
 
