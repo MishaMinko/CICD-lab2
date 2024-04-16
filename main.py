@@ -24,6 +24,9 @@ class GameUpdater:
             ship.magnetToGridEdge(cGameGrid, CELLSIZE)
             ship.magnetToGrid(cGameGrid, CELLSIZE)
 
+        for button in BUTTONS:
+            button.draw(self.window)
+
         pygame.display.update()
 
 
@@ -148,6 +151,9 @@ FLEET = {
 }
 
 BUTTONIMAGE = loadImage(os.path.join(current_directory, 'assets', 'images', 'buttons', 'button.png'), (150, 50))
+BUTTONS = [
+    Button(BUTTONIMAGE, (150, 50), (25, 900), 'Randomize')
+]
 
 
 #creating game variables
