@@ -18,6 +18,11 @@ class GameUpdater:
             ship.magnetToGridEdge(pGameGrid, CELLSIZE)
             ship.magnetToGrid(pGameGrid, CELLSIZE)
 
+        for ship in cFleet:
+            ship.draw(self.window)
+            ship.magnetToGridEdge(cGameGrid, CELLSIZE)
+            ship.magnetToGrid(cGameGrid, CELLSIZE)
+
         pygame.display.update()
 
 
@@ -77,6 +82,33 @@ def sortFleet(ship, shiplist):
     shiplist.append(ship)
 
 
+def randomizeShipPositions(shiplist, gamegrid):
+    placedShips = []
+    for _, ship in enumerate(shiplist):
+        validPosition = False
+        while validPosition == False:
+            ship.setDefaultPosition()
+            rotateShip = random.choice([True, False])
+            if rotateShip == True:
+                yAxis = random.randint(0, 9)
+                xAxis = random.randint(0, 9 - (ship.hImage.get_width()//50))
+                ship.rotateShip(True)
+            else:
+                yAxis = random.randint(0, 9 - (ship.vImage.get_height()//50))
+                xAxis = random.randint(0, 9)
+            ship.rect.topleft = gamegrid[yAxis][xAxis]
+            if len(placedShips) > 0:
+                for item in placedShips:
+                    if ship.rect.colliderect(item.rect):
+                        validPosition = False
+                        break
+                    else:
+                        validPosition = True
+            else:
+                validPosition = True
+        placedShips.append(ship)
+
+
 def createFleet():
     fleet = []
     for name in FLEET.keys():
@@ -123,6 +155,7 @@ pFleet = createFleet()
 cGameGrid = createGameGrid(ROWS, COLS, CELLSIZE, (SCREENWIDTH - (ROWS * CELLSIZE) - 50, 50))
 cGameLogic = createGameLogic(ROWS, COLS)
 cFleet = createFleet()
+randomizeShipPositions(cFleet, cGameGrid)
 
 printGameLogic()
 
