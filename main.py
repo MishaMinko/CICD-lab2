@@ -95,6 +95,13 @@ def createFleet():
     return fleet
 
 
+def deploymentPhase(depl):
+    if depl == True:
+        return False
+    else:
+        return True
+
+
 def updateGameScreen(window):
     window.fill((0, 0, 0))
 
@@ -122,6 +129,7 @@ SCREENHEIGHT = 960
 ROWS = 10
 COLS = 10
 CELLSIZE = 50
+DEPLOYMENT = True
 
 
 #pygame display
@@ -149,7 +157,8 @@ FLEET = {
 BUTTONIMAGE = loadImage(os.path.join(current_directory, 'assets', 'images', 'buttons', 'button.png'), (150, 50))
 BUTTONS = [
     Button(globals(), BUTTONIMAGE, (150, 50), (25, 900), 'Randomize'),
-    Button(globals(), BUTTONIMAGE, (150, 50), (200, 900), 'Reset')
+    Button(globals(), BUTTONIMAGE, (150, 50), (200, 900), 'Reset'),
+    Button(globals(), BUTTONIMAGE, (150, 50), (375, 900), 'Deploy')
 ]
 
 
@@ -182,7 +191,14 @@ while RUNGAME:
 
                 for button in BUTTONS:
                     if button.rect.collidepoint(pygame.mouse.get_pos()):
-                        button.actionOnPress()
+                        if button.name == 'Randomize':
+                            randomizeShipPositions(pFleet, pGameGrid)
+                            randomizeShipPositions(cFleet, cGameGrid)
+                        elif button.name == 'Reset':
+                            for ship in pFleet:
+                                ship.setDefaultPosition()
+                        elif button.name == 'Deploy':
+                            DEPLOYMENT = deploymentPhase(DEPLOYMENT)
     
     updateGameScreen(GAMESCREEN)
 

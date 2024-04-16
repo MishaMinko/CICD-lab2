@@ -27,15 +27,6 @@ class Button:
             window.blit(self.imageLarger, (self.rect[0] - 5, self.rect[1] - 5, self.rect[2], self.rect[3]))
         else:
             window.blit(self.image, self.rect)
-    
-
-    def actionOnPress(self):
-        if self.name == 'Randomize':
-            self.globals['randomizeShipPositions'](self.globals['pFleet'], self.globals['pGameGrid'])
-            self.globals['randomizeShipPositions'](self.globals['cFleet'], self.globals['cGameGrid'])
-        elif self.name == 'Reset':
-            for ship in self.globals['pFleet']:
-                ship.setDefaultPosition()
 
 
     def draw(self, window):
