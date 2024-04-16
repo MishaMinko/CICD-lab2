@@ -1,5 +1,6 @@
 #Програма написана Фурсенком Михайлом та Полярушом Данилом групи ІПЗ-22
 from classes.ship import Ship
+from classes.button import Button
 import pygame, random, os
 pygame.init()
 
@@ -145,6 +146,8 @@ FLEET = {
     'rescue ship': ['rescue ship', os.path.join(current_directory, 'assets', 'images', 'ships', 'rescue ship', 'rescue ship.png'), (500, 600), (20, 95),
                     0, '', None, None]
 }
+
+BUTTONIMAGE = loadImage(os.path.join(current_directory, 'assets', 'images', 'buttons', 'button.png'), (150, 50))
 
 
 #creating game variables
