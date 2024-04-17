@@ -31,6 +31,16 @@ def createGameLogic(rows, cols):
     return gameLogic
 
 
+def updateGameLogic(coordGrid, shiplist, gamelogic):
+    for i, rowX in enumerate(coordGrid):
+        for j, colX in enumerate(rowX):
+            if gamelogic[i][j] != 'T' and gamelogic[i][j] != 'X':
+                gamelogic[i][j] = ' '
+                for ship in shiplist:
+                    if pygame.rect.Rect(colX[0], colX[1], CELLSIZE, CELLSIZE).colliderect(ship.rect):
+                        gamelogic[i][j] = 'O'
+
+
 def showGridOnScreen(window, cellsize, pGrid, cGrid):
     gameGrids = [pGrid, cGrid]
     for grid in gameGrids:
@@ -85,7 +95,7 @@ def randomizeShipPositions(shiplist, gamegrid):
                         validPosition = True
             else:
                 validPosition = True
-        placedShips.append(ship)
+        placedShips.append(ship)        
 
 
 def createFleet():
@@ -119,6 +129,9 @@ def updateGameScreen(window):
 
     for button in BUTTONS:
         button.draw(window)
+
+    updateGameLogic(pGameGrid, pFleet, pGameLogic)
+    updateGameLogic(cGameGrid, cFleet, cGameLogic)
 
     pygame.display.update()
 
@@ -200,6 +213,9 @@ while RUNGAME:
                                 ship.setDefaultPosition()
                         elif button.name == 'Deploy':
                             DEPLOYMENT = deploymentPhase(DEPLOYMENT)
+            
+            elif event.button == 2:
+                printGameLogic()
     
     updateGameScreen(GAMESCREEN)
 
