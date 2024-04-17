@@ -1,6 +1,7 @@
 #Програма написана Фурсенком Михайлом та Полярушом Данилом групи ІПЗ-22
 from classes.ship import Ship
 from classes.button import Button
+from classes.player import Player
 import pygame, random, os
 pygame.init()
 
