@@ -7,3 +7,7 @@ class Tokens:
         self.pos = pos
         self.rect.topleft = self.pos
         self.action = action
+
+    
+    def draw(self, window):
+        window.blit(self.image, self.rect)
