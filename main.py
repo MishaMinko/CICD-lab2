@@ -188,6 +188,7 @@ randomizeShipPositions(cFleet, cGameGrid)
 
 printGameLogic()
 
+player1 = Player(globals)
 
 #game flow
 RUNGAME = True
@@ -203,6 +204,10 @@ while RUNGAME:
                             ship.active = True
                             sortFleet(ship, pFleet)
                             ship.selectShipAndMove(pFleet)
+
+                else:
+                    if player1.turn == True:
+                        player1.makeAttack(cGameGrid, cGameLogic)
 
                 for button in BUTTONS:
                     if button.rect.collidepoint(pygame.mouse.get_pos()):
