@@ -131,6 +131,9 @@ def updateGameScreen(window):
     for button in BUTTONS:
         button.draw(window)
 
+    for token in TOKENS:
+        token.draw(window)
+
     updateGameLogic(pGameGrid, pFleet, pGameLogic)
     updateGameLogic(cGameGrid, cFleet, cGameLogic)
 
@@ -170,10 +173,14 @@ FLEET = {
 
 BUTTONIMAGE = loadImage(os.path.join(current_directory, 'assets', 'images', 'buttons', 'button.png'), (150, 50))
 BUTTONS = [
-    Button(globals(), BUTTONIMAGE, (150, 50), (25, 900), 'Randomize'),
-    Button(globals(), BUTTONIMAGE, (150, 50), (200, 900), 'Reset'),
-    Button(globals(), BUTTONIMAGE, (150, 50), (375, 900), 'Deploy')
+    Button(BUTTONIMAGE, (150, 50), (25, 900), 'Randomize'),
+    Button(BUTTONIMAGE, (150, 50), (200, 900), 'Reset'),
+    Button(BUTTONIMAGE, (150, 50), (375, 900), 'Deploy')
 ]
+REDTOKEN = loadImage(os.path.join(current_directory, 'assets', 'images', 'tokens', 'redtoken.png'), (CELLSIZE, CELLSIZE))
+GREENTOKEN = loadImage(os.path.join(current_directory, 'assets', 'images', 'tokens', 'greentoken.png'), (CELLSIZE, CELLSIZE))
+BLUETOKEN = loadImage(os.path.join(current_directory, 'assets', 'images', 'tokens', 'bluetoken.png'), (CELLSIZE, CELLSIZE))
+TOKENS = []
 
 
 #creating game variables
@@ -188,7 +195,7 @@ randomizeShipPositions(cFleet, cGameGrid)
 
 printGameLogic()
 
-player1 = Player(globals)
+player1 = Player(globals())
 
 #game flow
 RUNGAME = True
@@ -206,8 +213,8 @@ while RUNGAME:
                             ship.selectShipAndMove(pFleet)
 
                 else:
-                    if player1.turn == True:
-                        player1.makeAttack(cGameGrid, cGameLogic)
+                    #if player1.turn == True:
+                    player1.makeAttack(cGameGrid, cGameLogic)
 
                 for button in BUTTONS:
                     if button.rect.collidepoint(pygame.mouse.get_pos()):

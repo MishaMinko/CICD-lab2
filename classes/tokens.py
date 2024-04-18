@@ -1,6 +1,5 @@
-import pygame
 
-class Tokens:
+class Token:
     def __init__(self, image, pos, action):
         self.image = image
         self.rect = self.image.get_rect()

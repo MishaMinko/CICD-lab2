@@ -1,7 +1,7 @@
 import pygame
 
 class Button:
-    def __init__(self, globals, image, size, pos, msg):
+    def __init__(self, image, size, pos, msg):
         self.name = msg
         self.image = image
         self.imageLarger = self.image
@@ -12,8 +12,6 @@ class Button:
 
         self.msg = self.addText(msg)
         self.msgRect = self.msg.get_rect(center=self.rect.center)
-
-        self.globals = globals
 
     
     def addText(self, msg):
