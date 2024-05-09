@@ -2,7 +2,7 @@ import random
 import pygame
 
 class HardComputer(EasyComputer):
-    def __init__(self, global):
+    def __init__(self, globals):
         super().__init__()
         self.moves = []
 
