@@ -40,6 +40,7 @@ class Button:
         self.msgRect = self.msg.get_rect(center=self.rect.center)
 
 
-    def draw(self, window):
+    def draw(self, window, DEPLOYMENT):
+        self.updateButtons(DEPLOYMENT)
         self.focusOnButton(window)
         window.blit(self.msg, self.msgRect)
