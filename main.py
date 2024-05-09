@@ -138,7 +138,7 @@ def updateGameScreen(window):
 
     pygame.display.update()
     
-    def takeTurns(p1, p2):
+def takeTurns(p1, p2):
     if p1.turn == True:
         p2.turn = False
     else:
