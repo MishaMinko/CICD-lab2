@@ -130,7 +130,7 @@ def updateGameScreen(window):
         ship.magnetToGrid(cGameGrid, CELLSIZE)
 
     for button in BUTTONS:
-        button.draw(window)
+        button.draw(window, DEPLOYMENT)
 
     for token in TOKENS:
         token.draw(window)
