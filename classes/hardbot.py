@@ -1,6 +1,7 @@
 import random
 import pygame
-from easybot import EasyComputer
+from classes.easybot import EasyComputer
+from classes.tokens import Token
 
 class HardComputer(EasyComputer):
     def __init__(self, globals):
@@ -20,27 +21,21 @@ class HardComputer(EasyComputer):
                     if gamelogic[rowX][rowY] == ' ' or gamelogic[rowX][rowY] == 'O':
                         validChoice = True
 
-                self.globals['SHOTSOUND'].play()
                 if gamelogic[rowX][rowY] == 'O':
-                    self.globals['TOKENS'].append(
-                        self.globals['Tokens'](self.globals['REDTOKEN'], self.globals['pGameGrid'][rowX][rowY], 'Hit', self.globals['FIRETOKENIMAGELIST'], self.globals['EXPLOSIONIMAGELIST'], None))
+                    self.globals['TOKENS'].append(Token(self.globals['REDTOKEN'], self.globals['pGameGrid'][rowX][rowY], 'Hit'))
                     gamelogic[rowX][rowY] = 'T'
-                    self.globals['HITSOUND'].play()
                     self.generateMoves((rowX, rowY), gamelogic)
                 else:
                     gamelogic[rowX][rowY] = 'X'
-                    self.globals['TOKENS'].append(self.globals['Tokens'](self.globals['BLUETOKEN'], self.globals['pGameGrid'][rowX][rowY], 'Miss', None, None, None))
-                    self.globals['MISSSOUND'].play()
+                    self.globals['TOKENS'].append(Token(self.globals['BLUETOKEN'], self.globals['pGameGrid'][rowX][rowY], 'Miss'))
                 self.turn = False
 
         elif len(self.moves) > 0:
             COMPTURNTIMER = pygame.time.get_ticks()
             if COMPTURNTIMER - self.globals['TURNTIMER'] >= 2000:
                 rowX, rowY = self.moves[0]
-                self.globals['TOKENS'].append(self.globals['Tokens'](self.globals['REDTOKEN'], self.globals['pGameGrid'][rowX][rowY], 'Hit', self.globals['FIRETOKENIMAGELIST'], self.globals['EXPLOSIONIMAGELIST'], None))
+                self.globals['TOKENS'].append(Token(self.globals['REDTOKEN'], self.globals['pGameGrid'][rowX][rowY], 'Hit'))
                 gamelogic[rowX][rowY] = 'T'
-                self.globals['SHOTSOUND'].play()
-                self.globals['HITSOUND'].play()
                 self.moves.remove((rowX, rowY))
                 self.turn = False
         return self.turn
