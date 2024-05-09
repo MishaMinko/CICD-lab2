@@ -1,7 +1,7 @@
 import random
 import pygame
 
-class HardComputer(EasyComputer):
+class HardComputer:
     def __init__(self):
         super().__init__()
         self.moves = []
@@ -10,7 +10,7 @@ class HardComputer(EasyComputer):
     def makeAttack(self, gamelogic):
         if len(self.moves) == 0:
             COMPTURNTIMER = pygame.time.get_ticks()
-            if COMPTURNTIMER - TURNTIMER >= 3000:
+            if COMPTURNTIMER - self.globals['TURNTIMER'] >= 3000:
                 validChoice = False
                 while not validChoice:
                     rowX = random.randint(0, 9)
@@ -19,27 +19,27 @@ class HardComputer(EasyComputer):
                     if gamelogic[rowX][rowY] == ' ' or gamelogic[rowX][rowY] == 'O':
                         validChoice = True
 
-                SHOTSOUND.play()
+                self.globals['SHOTSOUND'].play()
                 if gamelogic[rowX][rowY] == 'O':
-                    TOKENS.append(
-                        Tokens(REDTOKEN, pGameGrid[rowX][rowY], 'Hit', FIRETOKENIMAGELIST, EXPLOSIONIMAGELIST, None))
+                    self.globals['TOKENS'].append(
+                        self.globals['Tokens'](self.globals['REDTOKEN'], self.globals['pGameGrid'][rowX][rowY], 'Hit', self.globals['FIRETOKENIMAGELIST'], self.globals['EXPLOSIONIMAGELIST'], None))
                     gamelogic[rowX][rowY] = 'T'
-                    HITSOUND.play()
+                    self.globals['HITSOUND'].play()
                     self.generateMoves((rowX, rowY), gamelogic)
                 else:
                     gamelogic[rowX][rowY] = 'X'
-                    TOKENS.append(Tokens(BLUETOKEN, pGameGrid[rowX][rowY], 'Miss', None, None, None))
-                    MISSSOUND.play()
+                    self.globals['TOKENS'].append(self.globals['Tokens'](self.globals['BLUETOKEN'], self.globals['pGameGrid'][rowX][rowY], 'Miss', None, None, None))
+                    self.globals['MISSSOUND'].play()
                 self.turn = False
 
         elif len(self.moves) > 0:
             COMPTURNTIMER = pygame.time.get_ticks()
-            if COMPTURNTIMER - TURNTIMER >= 2000:
+            if COMPTURNTIMER - self.globals['TURNTIMER'] >= 2000:
                 rowX, rowY = self.moves[0]
-                TOKENS.append(Tokens(REDTOKEN, pGameGrid[rowX][rowY], 'Hit', FIRETOKENIMAGELIST, EXPLOSIONIMAGELIST, None))
+                self.globals['TOKENS'].append(self.globals['Tokens'](self.globals['REDTOKEN'], self.globals['pGameGrid'][rowX][rowY], 'Hit', self.globals['FIRETOKENIMAGELIST'], self.globals['EXPLOSIONIMAGELIST'], None))
                 gamelogic[rowX][rowY] = 'T'
-                SHOTSOUND.play()
-                HITSOUND.play()
+                self.globals['SHOTSOUND'].play()
+                self.globals['HITSOUND'].play()
                 self.moves.remove((rowX, rowY))
                 self.turn = False
         return self.turn
