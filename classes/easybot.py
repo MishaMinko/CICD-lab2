@@ -16,7 +16,7 @@ class EasyComputer:
 
     def makeAttack(self, gamelogic):
         COMPTURNTIMER = pygame.time.get_ticks()
-        if COMPTURNTIMER - TURNTIMER >= 3000:
+        if COMPTURNTIMER - self.globals['TURNTIMER'] >= 3000:
             validChoice = False
             while not validChoice:
                 rowX = random.randint(0, 9)
@@ -26,20 +26,20 @@ class EasyComputer:
                     validChoice = True
 
             if gamelogic[rowX][colX] == 'O':
-                TOKENS.append(Tokens(REDTOKEN, pGameGrid[rowX][colX], 'Hit', FIRETOKENIMAGELIST, EXPLOSIONIMAGELIST, None))
+                self.globals['TOKENS'].append(self.globals['Tokens'](self.globals['REDTOKEN'], self.globals['pGameGrid'][rowX][colX], 'Hit', self.globals['FIRETOKENIMAGELIST'], self.globals['EXPLOSIONIMAGELIST'], None))
                 gamelogic[rowX][colX] = 'T'
-                SHOTSOUND.play()
-                HITSOUND.play()
+                self.globals['SHOTSOUND'].play()
+                self.globals['HITSOUND'].play()
                 self.turn = False
             else:
                 gamelogic[rowX][colX] = 'X'
-                TOKENS.append(Tokens(BLUETOKEN, pGameGrid[rowX][colX], 'Miss', None, None, None))
-                SHOTSOUND.play()
-                MISSSOUND.play()
+                self.globals['TOKENS'].append(self.globals['Tokens'](self.globals['BLUETOKEN'], self.globals['pGameGrid'][rowX][colX], 'Miss', None, None, None))
+                self.globals['SHOTSOUND'].play()
+                self.globals['MISSSOUND'].play()
                 self.turn = False
         return self.turn
 
 
     def draw(self, window):
         if self.turn:
-            window.blit(self.status, (cGameGrid[0][0][0] - CELLSIZE, cGameGrid[-1][-1][1] + CELLSIZE))
+            window.blit(self.status, (self.globals['cGameGrid'][0][0][0] - self.globals['CELLSIZE'], self.globals['cGameGrid'][-1][-1][1] + self.globals['CELLSIZE']))
