@@ -1,4 +1,4 @@
-    #Програма написана Фурсенком Михайлом та Полярушом Данилом групи ІПЗ-22
+#Програма написана Фурсенком Михайлом та Полярушом Данилом групи ІПЗ-22
 from classes.ship import Ship
 from classes.button import Button
 from classes.player import Player
@@ -114,6 +114,7 @@ def deploymentPhase(depl):
     else:
         return True
 
+
 def updateGameScreen(window):
     window.fill((0, 0, 0))
 
@@ -125,7 +126,6 @@ def updateGameScreen(window):
         ship.magnetToGrid(pGameGrid, CELLSIZE)
 
     for ship in cFleet:
-        ship.draw(window)
         ship.magnetToGridEdge(cGameGrid, CELLSIZE)
         ship.magnetToGrid(cGameGrid, CELLSIZE)
 
@@ -140,13 +140,6 @@ def updateGameScreen(window):
 
     pygame.display.update()
     
-def takeTurns(p1, p2):
-    if p1.turn == True:
-        p2.turn = False
-    else:
-        p2.turn = True
-        if not p2.makeAttack(pGameLogic):
-            p1.turn = True
 
 def takeTurns(p1, p2):
     if p1.turn == True:
@@ -155,6 +148,7 @@ def takeTurns(p1, p2):
         p2.turn = True
         if not p2.makeAttack(pGameLogic):
             p1.turn = True
+
 
 #game settings
 SCREENWIDTH = 1260
@@ -164,6 +158,7 @@ COLS = 10
 CELLSIZE = 50
 DEPLOYMENT = True
 TURNTIMER = pygame.time.get_ticks()
+
 
 #pygame display
 GAMESCREEN = pygame.display.set_mode((SCREENWIDTH, SCREENHEIGHT))
@@ -213,6 +208,7 @@ printGameLogic()
 
 player1 = Player(globals())
 computer = EasyComputer(globals())
+
 
 #game flow
 RUNGAME = True
