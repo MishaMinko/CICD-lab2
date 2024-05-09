@@ -41,6 +41,9 @@ class Button:
 
 
     def draw(self, window, DEPLOYMENT):
+        if self.name == 'Reset' and DEPLOYMENT == False:
+            return
+
         self.updateButtons(DEPLOYMENT)
         self.focusOnButton(window)
         window.blit(self.msg, self.msgRect)
