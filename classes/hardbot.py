@@ -1,8 +1,8 @@
 import random
 import pygame
 
-class HardComputer:
-    def __init__(self):
+class HardComputer(EasyComputer):
+    def __init__(self, global):
         super().__init__()
         self.moves = []
 
