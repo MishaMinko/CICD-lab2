@@ -26,6 +26,19 @@ class Button:
         else:
             window.blit(self.image, self.rect)
 
+    
+    def updateButtons(self, gameStatus):
+        if self.name == 'Deploy' and gameStatus == False:
+            self.name = 'Quit'
+        elif self.name == 'Quit' and gameStatus == True:
+            self.name = 'Deploy'
+        if self.name == 'Randomize' and gameStatus == False:
+            self.name = 'Redeploy'
+        elif self.name == 'Redeploy' and gameStatus == True:
+            self.name = 'Randomize'
+        self.msg = self.addText(self.name)
+        self.msgRect = self.msg.get_rect(center=self.rect.center)
+
 
     def draw(self, window):
         self.focusOnButton(window)
