@@ -1,3 +1,6 @@
+import random
+import pygame
+
 class HardComputer(EasyComputer):
     def __init__(self):
         super().__init__()
