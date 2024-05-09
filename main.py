@@ -1,4 +1,4 @@
-#Програма написана Фурсенком Михайлом та Полярушом Данилом групи ІПЗ-22
+    #Програма написана Фурсенком Михайлом та Полярушом Данилом групи ІПЗ-22
 from classes.ship import Ship
 from classes.button import Button
 from classes.player import Player
@@ -111,6 +111,14 @@ def deploymentPhase(depl):
         return False
     else:
         return True
+
+def takeTurns(p1, p2):
+    if p1.turn == True:
+        p2.turn = False
+    else:
+        p2.turn = True
+        if not p2.makeAttack(self.globals['pGameLogic']):
+            p1.turn = True
 
 
 def updateGameScreen(window):
