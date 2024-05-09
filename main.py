@@ -182,11 +182,16 @@ FLEET = {
                     0, '', None, None]
 }
 
+MAINMENUIMAGE = loadImage(os.path.join(current_directory, 'assets', 'images', 'background', 'Battleship.jpg'), (SCREENWIDTH // 3 * 2, SCREENHEIGHT))
+ENDSCREENIMAGE = loadImage(os.path.join(current_directory, 'assets', 'images', 'background', 'Carrier.jpg'), (SCREENWIDTH, SCREENHEIGHT))
 BUTTONIMAGE = loadImage(os.path.join(current_directory, 'assets', 'images', 'buttons', 'button.png'), (150, 50))
+BUTTONIMAGE1 = loadImage(os.path.join(current_directory, 'assets', 'images', 'buttons', 'button.png'), (250, 100))
 BUTTONS = [
     Button(BUTTONIMAGE, (150, 50), (25, 900), 'Randomize'),
     Button(BUTTONIMAGE, (150, 50), (200, 900), 'Reset'),
-    Button(BUTTONIMAGE, (150, 50), (375, 900), 'Deploy')
+    Button(BUTTONIMAGE, (150, 50), (375, 900), 'Deploy'),
+    Button(BUTTONIMAGE1, (250, 100), (900, SCREENHEIGHT // 2 - 150), 'Easy Computer'),
+    Button(BUTTONIMAGE1, (250, 100), (900, SCREENHEIGHT // 2 + 150), 'Hard Computer')
 ]
 REDTOKEN = loadImage(os.path.join(current_directory, 'assets', 'images', 'tokens', 'redtoken.png'), (CELLSIZE, CELLSIZE))
 GREENTOKEN = loadImage(os.path.join(current_directory, 'assets', 'images', 'tokens', 'greentoken.png'), (CELLSIZE, CELLSIZE))
@@ -233,14 +238,17 @@ while RUNGAME:
 
                 for button in BUTTONS:
                     if button.rect.collidepoint(pygame.mouse.get_pos()):
-                        if button.name == 'Randomize':
+                        if button.name == 'Deploy' and button.active == True:
+                            DEPLOYMENT = deploymentPhase(DEPLOYMENT)
+                        elif button.name == 'Redeploy' and button.active == True:
+                            DEPLOYMENT = deploymentPhase(DEPLOYMENT)
+                        elif button.name == 'Quit' and button.active == True:
+                            RUNGAME = False
+                        elif button.name == 'Randomize':
                             randomizeShipPositions(pFleet, pGameGrid)
                             randomizeShipPositions(cFleet, cGameGrid)
                         elif button.name == 'Reset':
-                            for ship in pFleet:
-                                ship.setDefaultPosition()
-                        elif button.name == 'Deploy':
-                            DEPLOYMENT = deploymentPhase(DEPLOYMENT)
+                            pass
             
             elif event.button == 2:
                 printGameLogic()
