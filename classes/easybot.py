@@ -1,5 +1,6 @@
 import random
 import pygame
+from classes.tokens import Token
 
 class EasyComputer:
     def __init__(self, globals):
@@ -27,16 +28,12 @@ class EasyComputer:
                     validChoice = True
 
             if gamelogic[rowX][colX] == 'O':
-                self.globals['TOKENS'].append(self.globals['Tokens'](self.globals['REDTOKEN'], self.globals['pGameGrid'][rowX][colX], 'Hit', self.globals['FIRETOKENIMAGELIST'], self.globals['EXPLOSIONIMAGELIST'], None))
+                self.globals['TOKENS'].append(Token(self.globals['REDTOKEN'], self.globals['pGameGrid'][rowX][colX], 'Hit'))
                 gamelogic[rowX][colX] = 'T'
-                self.globals['SHOTSOUND'].play()
-                self.globals['HITSOUND'].play()
                 self.turn = False
             else:
                 gamelogic[rowX][colX] = 'X'
-                self.globals['TOKENS'].append(self.globals['Tokens'](self.globals['BLUETOKEN'], self.globals['pGameGrid'][rowX][colX], 'Miss', None, None, None))
-                self.globals['SHOTSOUND'].play()
-                self.globals['MISSSOUND'].play()
+                self.globals['TOKENS'].append(Token(self.globals['BLUETOKEN'], self.globals['pGameGrid'][rowX][colX], 'Miss'))
                 self.turn = False
         return self.turn
 
