@@ -112,15 +112,6 @@ def deploymentPhase(depl):
     else:
         return True
 
-def takeTurns(p1, p2):
-    if p1.turn == True:
-        p2.turn = False
-    else:
-        p2.turn = True
-        if not p2.makeAttack(self.globals['pGameLogic']):
-            p1.turn = True
-
-
 def updateGameScreen(window):
     window.fill((0, 0, 0))
 
@@ -146,6 +137,14 @@ def updateGameScreen(window):
     updateGameLogic(cGameGrid, cFleet, cGameLogic)
 
     pygame.display.update()
+    
+def takeTurns(p1, p2):
+    if p1.turn == True:
+        p2.turn = False
+    else:
+        p2.turn = True
+        if not p2.makeAttack(self.globals['pGameLogic']):
+            p1.turn = True
 
 
 #game settings
