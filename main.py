@@ -139,6 +139,13 @@ def updateGameScreen(window):
 
     pygame.display.update()
 
+def takeTurns(p1, p2):
+    if p1.turn == True:
+        p2.turn = False
+    else:
+        p2.turn = True
+        if not p2.makeAttack(pGameLogic):
+            p1.turn = True
 
 #game settings
 SCREENWIDTH = 1260
