@@ -1,9 +1,10 @@
 import random
 import pygame
+from easybot import EasyComputer
 
 class HardComputer(EasyComputer):
     def __init__(self, globals):
-        super().__init__()
+        super().__init__(globals)
         self.moves = []
 
 
