@@ -2,6 +2,8 @@
 from classes.ship import Ship
 from classes.button import Button
 from classes.player import Player
+from classes.easybot import EasyComputer
+from classes.hardbot import HardComputer
 import pygame, random, os
 pygame.init()
 
@@ -154,7 +156,7 @@ ROWS = 10
 COLS = 10
 CELLSIZE = 50
 DEPLOYMENT = True
-
+TURNTIMER = pygame.time.get_ticks()
 
 #pygame display
 GAMESCREEN = pygame.display.set_mode((SCREENWIDTH, SCREENHEIGHT))
@@ -203,6 +205,7 @@ randomizeShipPositions(cFleet, cGameGrid)
 printGameLogic()
 
 player1 = Player(globals())
+computer = EasyComputer(globals())
 
 #game flow
 RUNGAME = True
@@ -220,8 +223,10 @@ while RUNGAME:
                             ship.selectShipAndMove(pFleet)
 
                 else:
-                    #if player1.turn == True:
-                    player1.makeAttack(cGameGrid, cGameLogic)
+                    if player1.turn == True:
+                        player1.makeAttack(cGameGrid, cGameLogic)
+                        if player1.turn == False:
+                            TURNTIMER = pygame.time.get_ticks()
 
                 for button in BUTTONS:
                     if button.rect.collidepoint(pygame.mouse.get_pos()):
@@ -237,6 +242,7 @@ while RUNGAME:
             elif event.button == 2:
                 printGameLogic()
     
-    updateGameScreen(GAMESCREEN)
+    updateGameScreen(GAMESCREEN)    
+    takeTurns(player1, computer)
 
 pygame.quit()
