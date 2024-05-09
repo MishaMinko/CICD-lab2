@@ -143,7 +143,7 @@ def takeTurns(p1, p2):
         p2.turn = False
     else:
         p2.turn = True
-        if not p2.makeAttack(self.globals['pGameLogic']):
+        if not p2.makeAttack(pGameLogic):
             p1.turn = True
 
 
