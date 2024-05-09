@@ -2,7 +2,7 @@ import random
 import pygame
 
 class EasyComputer:
-    def __init__(self):
+    def __init__(self, global):
         self.turn = False
         self.status = self.computerStatus('Thinking')
         self.name = 'Easy Computer'
