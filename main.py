@@ -1,4 +1,4 @@
-#Програма написана Фурсенком Михайлом та Полярушом Данилом групи ІПЗ-22
+#Програма написана Фурсенком Михайлом та Полярушом Данилом групи ІПЗ-22 та Іллею Кравчуком ІПЗ-24
 from classes.ship import Ship
 from classes.button import Button
 from classes.player import Player
