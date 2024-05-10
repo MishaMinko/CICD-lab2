@@ -74,6 +74,12 @@ def sortFleet(ship, shiplist):
     shiplist.append(ship)
 
 
+def resetShips(shiplist):
+    if DEPLOYMENT == True:
+        for ship in shiplist:
+            ship.setDefaultPosition()
+
+
 def randomizeShipPositions(shiplist, gamegrid):
     placedShips = []
     for _, ship in enumerate(shiplist):
@@ -115,6 +121,15 @@ def deploymentPhase(depl):
         return True
 
 
+def takeTurns(p1, p2):
+    if p1.turn == True:
+        p2.turn = False
+    else:
+        p2.turn = True
+        if not p2.makeAttack(pGameLogic):
+            p1.turn = True
+
+
 def updateGameScreen(window):
     window.fill((0, 0, 0))
 
@@ -139,15 +154,6 @@ def updateGameScreen(window):
     updateGameLogic(cGameGrid, cFleet, cGameLogic)
 
     pygame.display.update()
-    
-
-def takeTurns(p1, p2):
-    if p1.turn == True:
-        p2.turn = False
-    else:
-        p2.turn = True
-        if not p2.makeAttack(pGameLogic):
-            p1.turn = True
 
 
 #game settings
@@ -158,6 +164,7 @@ COLS = 10
 CELLSIZE = 50
 DEPLOYMENT = True
 TURNTIMER = pygame.time.get_ticks()
+GAMESTATE = 'Main Menu'
 
 
 #pygame display
@@ -181,6 +188,7 @@ FLEET = {
     'rescue ship': ['rescue ship', os.path.join(current_directory, 'assets', 'images', 'ships', 'rescue ship', 'rescue ship.png'), (500, 600), (20, 95),
                     0, '', None, None]
 }
+STAGE = ['Main Menu', 'Deployment', 'Game Over']
 
 MAINMENUIMAGE = loadImage(os.path.join(current_directory, 'assets', 'images', 'background', 'Battleship.jpg'), (SCREENWIDTH // 3 * 2, SCREENHEIGHT))
 ENDSCREENIMAGE = loadImage(os.path.join(current_directory, 'assets', 'images', 'background', 'Carrier.jpg'), (SCREENWIDTH, SCREENHEIGHT))
@@ -190,8 +198,8 @@ BUTTONS = [
     Button(BUTTONIMAGE, (150, 50), (25, 900), 'Randomize'),
     Button(BUTTONIMAGE, (150, 50), (200, 900), 'Reset'),
     Button(BUTTONIMAGE, (150, 50), (375, 900), 'Deploy'),
-    Button(BUTTONIMAGE1, (250, 100), (900, SCREENHEIGHT // 2 - 150), 'Easy Computer'),
-    Button(BUTTONIMAGE1, (250, 100), (900, SCREENHEIGHT // 2 + 150), 'Hard Computer')
+    # Button(BUTTONIMAGE1, (250, 100), (900, SCREENHEIGHT // 2 - 150), 'Easy Computer'),
+    # Button(BUTTONIMAGE1, (250, 100), (900, SCREENHEIGHT // 2 + 150), 'Hard Computer')
 ]
 REDTOKEN = loadImage(os.path.join(current_directory, 'assets', 'images', 'tokens', 'redtoken.png'), (CELLSIZE, CELLSIZE))
 GREENTOKEN = loadImage(os.path.join(current_directory, 'assets', 'images', 'tokens', 'greentoken.png'), (CELLSIZE, CELLSIZE))
@@ -248,7 +256,7 @@ while RUNGAME:
                             randomizeShipPositions(pFleet, pGameGrid)
                             randomizeShipPositions(cFleet, cGameGrid)
                         elif button.name == 'Reset':
-                            pass
+                            resetShips(pFleet)
             
             elif event.button == 2:
                 printGameLogic()
