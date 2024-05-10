@@ -121,6 +121,16 @@ def deploymentPhase(depl):
         return True
 
 
+def restartGame(DEPLOYMENT):
+    TOKENS.clear()
+    resetShips(pFleet)
+    randomizeShipPositions(cFleet, cGameGrid)
+    updateGameLogic(cGameGrid, cFleet, cGameLogic)
+    updateGameLogic(pGameGrid, pFleet, pGameLogic)
+
+    DEPLOYMENT = deploymentPhase(DEPLOYMENT)
+
+
 def takeTurns(p1, p2):
     if p1.turn == True:
         p2.turn = False
@@ -171,19 +181,26 @@ def deploymentScreen(window):
 
 
 def endScreen(window):
+    restartGame(DEPLOYMENT)
+
     window.blit(ENDSCREENIMAGE, (0, 0))
 
-    pass
+    for button in difficulty_buttons:
+        button.draw(window, None)
+
+    font = pygame.font.SysFont('Stencil', 48)
+    title_text = font.render(winner, True, (255, 255, 255))
+    window.blit(title_text, (SCREENWIDTH // 2 - title_text.get_width() // 2, 100))
 
 
 def updateGameScreen(window):
     window.fill((0, 0, 0))
 
-    if GAMESTATE == GAMESTATE[0]:
+    if GAMESTATE == STAGE[0]:
         mainMenuScreen(window)
-    elif GAMESTATE == GAMESTATE[1]:
+    elif GAMESTATE == STAGE[1]:
         deploymentScreen(window)
-    elif GAMESTATE == GAMESTATE[2]:
+    elif GAMESTATE == STAGE[2]:
         endScreen(window)
 
     pygame.display.update()
@@ -257,6 +274,8 @@ printGameLogic()
 player1 = Player(globals())
 computer = EasyComputer(globals())
 
+winner = None
+
 
 #game flow
 RUNGAME = True
@@ -293,7 +312,7 @@ while RUNGAME:
                             if button.name == 'Deploy':
                                 DEPLOYMENT = deploymentPhase(DEPLOYMENT)
                             elif button.name == 'Redeploy':
-                                DEPLOYMENT = deploymentPhase(DEPLOYMENT)
+                                restartGame(DEPLOYMENT)
                             elif button.name == 'Quit':
                                 RUNGAME = False
                             elif button.name == 'Randomize':
@@ -307,11 +326,15 @@ while RUNGAME:
     
     updateGameScreen(GAMESCREEN)
 
-    if GAMESTATE == 'Deployment' and DEPLOYMENT != True:
-    player1Wins = checkForWinners(cGameLogic)
-    computerWins = checkForWinners(pGameLogic)
-    if player1Wins == True or computerWins == True:
-        GAMESTATE = STAGE[2]
+    if GAMESTATE == STAGE[1] and DEPLOYMENT != True:
+        player1Wins = checkForWinners(cGameLogic)
+        computerWins = checkForWinners(pGameLogic)
+        if player1Wins == True or computerWins == True:
+            GAMESTATE = STAGE[2]
+            if player1Wins == True:
+                winner = 'Player won!'
+            elif computerWins == True:
+                winner = 'Computer won!'
 
     takeTurns(player1, computer)
 
