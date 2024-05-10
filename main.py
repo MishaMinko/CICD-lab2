@@ -277,11 +277,11 @@ while RUNGAME:
                 elif GAMESTATE == STAGE[1]:
                     for button in BUTTONS:
                         if button.rect.collidepoint(pygame.mouse.get_pos()):
-                            if button.name == 'Deploy' and button.active == True:
+                            if button.name == 'Deploy':
                                 DEPLOYMENT = deploymentPhase(DEPLOYMENT)
-                            elif button.name == 'Redeploy' and button.active == True:
+                            elif button.name == 'Redeploy':
                                 DEPLOYMENT = deploymentPhase(DEPLOYMENT)
-                            elif button.name == 'Quit' and button.active == True:
+                            elif button.name == 'Quit':
                                 RUNGAME = False
                             elif button.name == 'Randomize':
                                 randomizeShipPositions(pFleet, pGameGrid)
