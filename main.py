@@ -130,6 +130,13 @@ def takeTurns(p1, p2):
             p1.turn = True
 
 
+def checkForWinners(grid):
+    for row in grid:
+        if 'O' in row:
+            return False
+    return True
+
+
 def mainMenuScreen(window):
     window.blit(MAINMENUIMAGE, (0, 0))
 
@@ -163,13 +170,21 @@ def deploymentScreen(window):
     updateGameLogic(cGameGrid, cFleet, cGameLogic)
 
 
+def endScreen(window):
+    window.blit(ENDSCREENIMAGE, (0, 0))
+
+    pass
+
+
 def updateGameScreen(window):
     window.fill((0, 0, 0))
 
-    if GAMESTATE == 'Main Menu':
+    if GAMESTATE == GAMESTATE[0]:
         mainMenuScreen(window)
-    elif GAMESTATE == 'Deployment':
+    elif GAMESTATE == GAMESTATE[1]:
         deploymentScreen(window)
+    elif GAMESTATE == GAMESTATE[2]:
+        endScreen(window)
 
     pygame.display.update()
 
@@ -215,9 +230,7 @@ BUTTONIMAGE1 = loadImage(os.path.join(current_directory, 'assets', 'images', 'bu
 BUTTONS = [
     Button(BUTTONIMAGE, (150, 50), (25, 900), 'Randomize'),
     Button(BUTTONIMAGE, (150, 50), (200, 900), 'Reset'),
-    Button(BUTTONIMAGE, (150, 50), (375, 900), 'Deploy'),
-    # Button(BUTTONIMAGE1, (250, 100), (900, SCREENHEIGHT // 2 - 150), 'Easy Computer'),
-    # Button(BUTTONIMAGE1, (250, 100), (900, SCREENHEIGHT // 2 + 150), 'Hard Computer')
+    Button(BUTTONIMAGE, (150, 50), (375, 900), 'Deploy')
 ]
 difficulty_buttons = [
     Button(BUTTONIMAGE1, (250, 100), (900, SCREENHEIGHT // 2 - 150), 'Easy Bot'),
@@ -292,7 +305,14 @@ while RUNGAME:
             elif event.button == 2:
                 printGameLogic()
     
-    updateGameScreen(GAMESCREEN)    
+    updateGameScreen(GAMESCREEN)
+
+    if GAMESTATE == 'Deployment' and DEPLOYMENT != True:
+    player1Wins = checkForWinners(cGameLogic)
+    computerWins = checkForWinners(pGameLogic)
+    if player1Wins == True or computerWins == True:
+        GAMESTATE = STAGE[2]
+
     takeTurns(player1, computer)
 
 pygame.quit()
