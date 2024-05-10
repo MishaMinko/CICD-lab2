@@ -130,9 +130,18 @@ def takeTurns(p1, p2):
             p1.turn = True
 
 
-def updateGameScreen(window):
-    window.fill((0, 0, 0))
+def mainMenuScreen(window):
+    window.blit(MAINMENUIMAGE, (0, 0))
 
+    for button in difficulty_buttons:
+        button.draw(window, None)
+
+    font = pygame.font.SysFont('Stencil', 48)
+    title_text = font.render("Choose Difficulty", True, (255, 255, 255))
+    window.blit(title_text, (SCREENWIDTH // 2 - title_text.get_width() // 2, 100))
+
+
+def deploymentScreen(window):
     showGridOnScreen(window, CELLSIZE, pGameGrid, cGameGrid)
 
     for ship in pFleet:
@@ -152,6 +161,15 @@ def updateGameScreen(window):
 
     updateGameLogic(pGameGrid, pFleet, pGameLogic)
     updateGameLogic(cGameGrid, cFleet, cGameLogic)
+
+
+def updateGameScreen(window):
+    window.fill((0, 0, 0))
+
+    if GAMESTATE == 'Main Menu':
+        mainMenuScreen(window)
+    elif GAMESTATE == 'Deployment':
+        deploymentScreen(window)
 
     pygame.display.update()
 
@@ -201,6 +219,10 @@ BUTTONS = [
     # Button(BUTTONIMAGE1, (250, 100), (900, SCREENHEIGHT // 2 - 150), 'Easy Computer'),
     # Button(BUTTONIMAGE1, (250, 100), (900, SCREENHEIGHT // 2 + 150), 'Hard Computer')
 ]
+difficulty_buttons = [
+    Button(BUTTONIMAGE1, (250, 100), (900, SCREENHEIGHT // 2 - 150), 'Easy Bot'),
+    Button(BUTTONIMAGE1, (250, 100), (900, SCREENHEIGHT // 2 + 150), 'Hard Bot')
+]
 REDTOKEN = loadImage(os.path.join(current_directory, 'assets', 'images', 'tokens', 'redtoken.png'), (CELLSIZE, CELLSIZE))
 GREENTOKEN = loadImage(os.path.join(current_directory, 'assets', 'images', 'tokens', 'greentoken.png'), (CELLSIZE, CELLSIZE))
 BLUETOKEN = loadImage(os.path.join(current_directory, 'assets', 'images', 'tokens', 'bluetoken.png'), (CELLSIZE, CELLSIZE))
@@ -244,19 +266,28 @@ while RUNGAME:
                         if player1.turn == False:
                             TURNTIMER = pygame.time.get_ticks()
 
-                for button in BUTTONS:
-                    if button.rect.collidepoint(pygame.mouse.get_pos()):
-                        if button.name == 'Deploy' and button.active == True:
-                            DEPLOYMENT = deploymentPhase(DEPLOYMENT)
-                        elif button.name == 'Redeploy' and button.active == True:
-                            DEPLOYMENT = deploymentPhase(DEPLOYMENT)
-                        elif button.name == 'Quit' and button.active == True:
-                            RUNGAME = False
-                        elif button.name == 'Randomize':
-                            randomizeShipPositions(pFleet, pGameGrid)
-                            randomizeShipPositions(cFleet, cGameGrid)
-                        elif button.name == 'Reset':
-                            resetShips(pFleet)
+                if GAMESTATE == STAGE[0] or GAMESTATE == STAGE[2]:
+                    for button in difficulty_buttons:
+                        if button.rect.collidepoint(pygame.mouse.get_pos()):
+                            if button.name == 'Easy Bot':
+                                computer = EasyComputer(globals())
+                            elif button.name == 'Hard Bot':
+                                computer = HardComputer(globals())
+                            GAMESTATE = STAGE[1]
+                elif GAMESTATE == STAGE[1]:
+                    for button in BUTTONS:
+                        if button.rect.collidepoint(pygame.mouse.get_pos()):
+                            if button.name == 'Deploy' and button.active == True:
+                                DEPLOYMENT = deploymentPhase(DEPLOYMENT)
+                            elif button.name == 'Redeploy' and button.active == True:
+                                DEPLOYMENT = deploymentPhase(DEPLOYMENT)
+                            elif button.name == 'Quit' and button.active == True:
+                                RUNGAME = False
+                            elif button.name == 'Randomize':
+                                randomizeShipPositions(pFleet, pGameGrid)
+                                randomizeShipPositions(cFleet, cGameGrid)
+                            elif button.name == 'Reset':
+                                resetShips(pFleet)
             
             elif event.button == 2:
                 printGameLogic()
