@@ -35,3 +35,16 @@ def test_computerStatus(pygame_init, globals, msg):
     hard_computer = HardComputer(globals)
     result = hard_computer.computerStatus(msg)
     assert isinstance(result, pygame.Surface), f"Expected pygame.Surface, but got {type(result)}"
+
+def test_makeAttack_first_hit(pygame_init, globals, gamelogic):
+    hard_computer = HardComputer(globals)
+    random.seed(0)
+    globals['TURNTIMER'] = pygame.time.get_ticks() - 4000
+    gamelogic[6][6] = 'O'
+    gamelogic[6][7] = 'O'
+    gamelogic[7][6] = 'O'
+    hard_computer.makeAttack(gamelogic)
+    assert gamelogic[6][6] == 'T'
+    assert any(token.action == 'Hit' for token in globals['TOKENS']), "A 'Hit' token should be added."
+    assert len(hard_computer.moves) > 0, "Moves should be generated after a hit."
+    assert (6, 7) in hard_computer.moves or (7, 6) in hard_computer.moves, "Expected adjacent moves to be generated."
