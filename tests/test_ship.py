@@ -31,3 +31,9 @@ def gun_data():
     size = (20, 20)
     offset = 0.5
     return imgPath, pos, size, offset
+
+def test_ship_rotateShip(pygame_init, globals, ship_data):
+    name, img, pos, size = ship_data
+    ship = Ship(globals, name, img, pos, size)
+    ship.rotateShip()
+    assert ship.rotation == True
