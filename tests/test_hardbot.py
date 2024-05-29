@@ -48,3 +48,12 @@ def test_makeAttack_first_hit(pygame_init, globals, gamelogic):
     assert any(token.action == 'Hit' for token in globals['TOKENS']), "A 'Hit' token should be added."
     assert len(hard_computer.moves) > 0, "Moves should be generated after a hit."
     assert (6, 7) in hard_computer.moves or (7, 6) in hard_computer.moves, "Expected adjacent moves to be generated."
+
+def test_makeAttack_first_miss(pygame_init, globals, gamelogic):
+    hard_computer = HardComputer(globals)
+    random.seed(0)
+    globals['TURNTIMER'] = pygame.time.get_ticks() - 4000
+    hard_computer.makeAttack(gamelogic)
+    assert gamelogic[6][6] == 'X'
+    assert any(token.action == 'Miss' for token in globals['TOKENS']), "A 'Miss' token should be added."
+    assert len(hard_computer.moves) == 0, "No moves should be generated after a miss."
