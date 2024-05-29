@@ -1,6 +1,5 @@
 import pygame
 import pytest
-from classes.tokens import Token
 from classes.player import Player
 
 @pytest.fixture(scope="module")
@@ -49,3 +48,12 @@ def test_makeAttack_out_grid(pygame_init, globals):
     player.makeAttack(globals['pGameGrid'], logicgrid)
     assert all(row == [' ' for _ in range(10)] for row in logicgrid), "No changes should be made to logicgrid"
     assert player.turn, "Player turn should not be changed if attack is outside the grid"
+
+def test_makeAttack_already_hit(pygame_init, globals):
+    player = Player(globals)
+    logicgrid = [['T' for _ in range(10)] for _ in range(10)]
+    posX, posY = globals['pGameGrid'][0][0]
+    pygame.mouse.get_pos = lambda: (posX + 25, posY + 25)
+    player.makeAttack(globals['pGameGrid'], logicgrid)
+    assert all(row == ['T' for _ in range(10)] for row in logicgrid), "No changes should be made to logicgrid"
+    assert player.turn, "Player turn should not be changed if attacking an already hit cell"
