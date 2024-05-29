@@ -47,3 +47,21 @@ def test_makeAttack(pygame_init, globals, gamelogic):
     assert turn_before_attack != result, "The turn status should be updated after the attack."
     assert gamelogic[0][0] in ['T', 'X'], "The game logic should be updated at the attack coordinates."
     assert len(globals['TOKENS']) > 0, "The tokens list should be updated after the attack."
+
+@pytest.mark.parametrize("initial_value, expected", [
+    (' ', 'X'),
+    ('O', 'T'),
+])
+def test_makeAttack_varied_gamelogic(pygame_init, globals, gamelogic, initial_value, expected):
+    easy_computer = EasyComputer(globals)
+    gamelogic[0][0] = initial_value
+    original_randint = random.randint
+    random.randint = lambda a, b: 0
+    globals['TURNTIMER'] = pygame.time.get_ticks() - 4000
+    easy_computer.makeAttack(gamelogic)
+    random.randint = original_randint
+    assert gamelogic[0][0] == expected, f"Expected {expected}, but got {gamelogic[0][0]}"
+    if expected == 'T':
+        assert any(token.action == 'Hit' for token in globals['TOKENS']), "A 'Hit' token should be added."
+    else:
+        assert any(token.action == 'Miss' for token in globals['TOKENS']), "A 'Miss' token should be added."
