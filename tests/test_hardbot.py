@@ -25,3 +25,13 @@ def globals():
 @pytest.fixture
 def gamelogic():
     return [[' ' for _ in range(10)] for _ in range(10)]
+
+@pytest.mark.parametrize("msg", [
+    "Thinking",
+    "Attacking",
+    "",
+])
+def test_computerStatus(pygame_init, globals, msg):
+    hard_computer = HardComputer(globals)
+    result = hard_computer.computerStatus(msg)
+    assert isinstance(result, pygame.Surface), f"Expected pygame.Surface, but got {type(result)}"
