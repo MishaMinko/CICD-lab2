@@ -30,3 +30,13 @@ def test_makeAttack_hit(pygame_init, globals):
     assert logicgrid[0][0] == 'X', "Expected 'X' in logicgrid[0][0] after making a hit"
     assert not player.turn, "Player turn should be set to False after making a hit"
     assert any(token.action == 'Hit' for token in globals['TOKENS']), "A 'Hit' token should be added"
+
+def test_makeAttack_miss(pygame_init, globals):
+    player = Player(globals)
+    logicgrid = [['O' for _ in range(10)] for _ in range(10)]
+    posX, posY = globals['pGameGrid'][0][0]
+    pygame.mouse.get_pos = lambda: (posX + 25, posY + 25)
+    player.makeAttack(globals['pGameGrid'], logicgrid)
+    assert logicgrid[0][0] == 'T', "Expected 'T' in logicgrid[0][0] after making a miss"
+    assert not player.turn, "Player turn should be set to False after making a miss"
+    assert any(token.action == 'Hit' for token in globals['TOKENS']), "A 'Hit' token should be added"
