@@ -67,3 +67,13 @@ def test_makeAttack_hit_after_hit(pygame_init, globals, gamelogic):
     assert gamelogic[1][1] == 'T'
     assert any(token.action == 'Hit' for token in globals['TOKENS']), "A 'Hit' token should be added."
     assert (1, 1) not in hard_computer.moves, "The move should be removed after hitting."
+
+def test_makeAttack_after_no_move(pygame_init, globals, gamelogic):
+    hard_computer = HardComputer(globals)
+    hard_computer.moves = [(1, 1)]
+    globals['TURNTIMER'] = pygame.time.get_ticks() - 1000
+    gamelogic[1][1] = 'O'
+    hard_computer.makeAttack(gamelogic)
+    assert gamelogic[1][1] == 'O'
+    assert not any(token.action == 'Hit' for token in globals['TOKENS']), "No 'Hit' token should be added if not enough time has passed."
+    assert (1, 1) in hard_computer.moves, "The move should not be removed if not enough time has passed."
