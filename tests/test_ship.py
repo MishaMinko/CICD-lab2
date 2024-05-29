@@ -37,3 +37,5 @@ def test_ship_rotateShip(pygame_init, globals, ship_data):
     ship = Ship(globals, name, img, pos, size)
     ship.rotateShip()
     assert ship.rotation == True
+    ship.rotateShip()
+    assert ship.rotation == False
