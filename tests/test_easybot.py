@@ -1,5 +1,6 @@
 import pytest
 import pygame
+import random
 from classes.easybot import EasyComputer
 
 @pytest.fixture(scope="module")
@@ -34,3 +35,15 @@ def test_computerStatus(pygame_init, globals, msg):
     result = easy_computer.computerStatus(msg)
     assert isinstance(result, pygame.Surface), f"Expected pygame.Surface, but got {type(result)}"
 
+def test_makeAttack(pygame_init, globals, gamelogic):
+    easy_computer = EasyComputer(globals)
+    easy_computer.turn = True
+    original_randint = random.randint
+    random.randint = lambda a, b: 0
+    globals['TURNTIMER'] = pygame.time.get_ticks() - 4000
+    turn_before_attack = easy_computer.turn
+    result = easy_computer.makeAttack(gamelogic)
+    random.randint = original_randint
+    assert turn_before_attack != result, "The turn status should be updated after the attack."
+    assert gamelogic[0][0] in ['T', 'X'], "The game logic should be updated at the attack coordinates."
+    assert len(globals['TOKENS']) > 0, "The tokens list should be updated after the attack."
