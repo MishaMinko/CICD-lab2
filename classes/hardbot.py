@@ -76,5 +76,3 @@ class HardComputer(EasyComputer):
                     if (nx, ny) not in self.moves and grid[nx][ny] == 'O':
                         self.moves.append((nx, ny))
                         self.generateMoves((nx, ny), grid, 'East')
-
-        return
