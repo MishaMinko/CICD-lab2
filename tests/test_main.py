@@ -65,3 +65,8 @@ def test_updateGameLogic(pygame_init, game_grid, game_logic, fleet, globals):
     CELLSIZE = globals['CELLSIZE']
     updateGameLogic(game_grid, fleet, game_logic, CELLSIZE)
     assert game_logic[0][0] == 'O' or game_logic[0][0] == ' '
+
+def test_randomizeShipPositions(pygame_init, game_grid, fleet):
+    randomizeShipPositions(fleet, game_grid)
+    for ship in fleet:
+        assert ship.rect.topleft in [pos for row in game_grid for pos in row]
