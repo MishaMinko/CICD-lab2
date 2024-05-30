@@ -221,7 +221,7 @@ def main():
     TURNTIMER = pygame.time.get_ticks()
     GAMESTATE = 'Main Menu'
 
-    # pygame displaying
+    # pygame display
     GAMESCREEN = pygame.display.set_mode((SCREENWIDTH, SCREENHEIGHT))
     pygame.display.set_caption('BattleShip')
 
