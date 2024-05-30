@@ -1,4 +1,4 @@
-import pygame, random, os, pytest
+import pygame, os, pytest
 from main import createGameGrid, createGameLogic, updateGameLogic, randomizeShipPositions, checkForWinners, loadImage, sortFleet, Ship
 
 @pytest.fixture(scope="module")
@@ -76,3 +76,9 @@ def test_checkForWinners():
     assert checkForWinners(grid) == True
     grid[0][0] = 'O'
     assert checkForWinners(grid) == False
+
+def test_sortFleet():
+    shiplist = ['ship1', 'ship2', 'ship3']
+    ship_to_move = 'ship2'
+    sortFleet(ship_to_move, shiplist)
+    assert shiplist == ['ship1', 'ship3', 'ship2']
