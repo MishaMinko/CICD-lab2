@@ -9,16 +9,22 @@ def pygame_init():
     pygame.quit()
 
 @pytest.fixture
-def globals():
-    def load_image_mock(path, size):
-        surface = pygame.Surface(size)
-        return surface
-
+def globals(load_image):
     return {
-        'loadImage': load_image_mock,
+        'loadImage': load_image,
         'updateGameScreen': pygame.display.update,
         'GAMESCREEN': pygame.display.set_mode((800, 600)),
     }
+
+@pytest.fixture
+def load_image():
+    def _load_image(path, size, rotate=False):
+        image = pygame.Surface(size)
+        image.fill((255, 0, 0))  # Fill the surface with a color for testing purposes
+        if rotate:
+            image = pygame.transform.rotate(image, 90)
+        return image
+    return _load_image
 
 @pytest.fixture
 def ship_data():
@@ -86,3 +92,12 @@ def test_ship_magnetToGrid(pygame_init, globals, ship_data):
     ship.magnetToGrid(gridCoords, CELLSIZE)
     assert ship.rect.centerx == 125
     assert ship.rect.centery == 75
+
+def test_guns_update(pygame_init, globals, gun_data, ship_data):
+    imgPath, pos, size, offset = gun_data
+    name, img, ship_pos, ship_size = ship_data
+    ship = Ship(globals, name, img, ship_pos, ship_size)
+    gun = Guns(imgPath, pos, size, offset, globals['loadImage'])
+    gun.update(ship)
+    expected_center = (ship.rect.centerx, ship.rect.centery + (ship.image.get_height() // 2 * gun.offset))
+    assert gun.rect.center == expected_center
