@@ -2,6 +2,7 @@ import random
 import pygame
 from classes.tokens import Token
 
+
 class EasyComputer:
     def __init__(self, globals):
         self.globals = globals
@@ -9,12 +10,10 @@ class EasyComputer:
         self.status = self.computerStatus('Thinking')
         self.name = 'Easy Computer'
 
-
     def computerStatus(self, msg):
         image = pygame.font.SysFont('Stencil', 22)
         message = image.render(msg, 1, (0, 0, 0))
         return message
-
 
     def makeAttack(self, gamelogic):
         COMPTURNTIMER = pygame.time.get_ticks()
@@ -36,7 +35,6 @@ class EasyComputer:
                 self.globals['TOKENS'].append(Token(self.globals['BLUETOKEN'], self.globals['pGameGrid'][rowX][colX], 'Miss'))
                 self.turn = False
         return self.turn
-
 
     def draw(self, window):
         if self.turn:

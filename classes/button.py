@@ -1,5 +1,6 @@
 import pygame
 
+
 class Button:
     def __init__(self, image, size, pos, msg):
         self.name = msg
@@ -12,12 +13,10 @@ class Button:
         self.msg = self.addText(msg)
         self.msgRect = self.msg.get_rect(center=self.rect.center)
 
-    
     def addText(self, msg):
         font = pygame.font.SysFont('Stencil', 22)
         message = font.render(msg, 1, (255, 255, 255))
         return message
-    
 
     def focusOnButton(self, window):
         if self.rect.collidepoint(pygame.mouse.get_pos()):
@@ -25,7 +24,6 @@ class Button:
         else:
             window.blit(self.image, self.rect)
 
-    
     def updateButtons(self, gameStatus):
         if self.name == 'Deploy' and gameStatus == False:
             self.name = 'Quit'
@@ -37,7 +35,6 @@ class Button:
             self.name = 'Randomize'
         self.msg = self.addText(self.name)
         self.msgRect = self.msg.get_rect(center=self.rect.center)
-
 
     def draw(self, window, DEPLOYMENT):
         if self.name == 'Reset' and DEPLOYMENT == False:
