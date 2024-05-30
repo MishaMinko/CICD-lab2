@@ -1,0 +1,13 @@
+stages:
+  - test
+  - lint
+
+pytest:
+  stage: test
+  script:
+    - bash run_tests.sh
+
+flake8:
+  stage: lint
+  script:
+    - bash run_lint.sh
