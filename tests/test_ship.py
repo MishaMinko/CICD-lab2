@@ -20,7 +20,7 @@ def globals(load_image):
 def load_image():
     def _load_image(path, size, rotate=False):
         image = pygame.Surface(size)
-        image.fill((255, 0, 0))  # Fill the surface with a color for testing purposes
+        image.fill((255, 0, 0))
         if rotate:
             image = pygame.transform.rotate(image, 90)
         return image

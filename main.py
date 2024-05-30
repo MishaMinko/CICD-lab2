@@ -34,13 +34,13 @@ def createGameLogic(rows, cols):
     return gameLogic
 
 
-def updateGameLogic(coordGrid, shiplist, gamelogic):
+def updateGameLogic(coordGrid, shiplist, gamelogic, cellsize):
     for i, rowX in enumerate(coordGrid):
         for j, colX in enumerate(rowX):
             if gamelogic[i][j] != 'T' and gamelogic[i][j] != 'X':
                 gamelogic[i][j] = ' '
                 for ship in shiplist:
-                    if pygame.rect.Rect(colX[0], colX[1], CELLSIZE, CELLSIZE).colliderect(ship.rect):
+                    if pygame.rect.Rect(colX[0], colX[1], cellsize, cellsize).colliderect(ship.rect):
                         gamelogic[i][j] = 'O'
 
 
@@ -125,8 +125,8 @@ def restartGame(DEPLOYMENT):
     TOKENS.clear()
     resetShips(pFleet)
     randomizeShipPositions(cFleet, cGameGrid)
-    updateGameLogic(cGameGrid, cFleet, cGameLogic)
-    updateGameLogic(pGameGrid, pFleet, pGameLogic)
+    updateGameLogic(cGameGrid, cFleet, cGameLogic, CELLSIZE)
+    updateGameLogic(pGameGrid, pFleet, pGameLogic, CELLSIZE)
 
     DEPLOYMENT = deploymentPhase(DEPLOYMENT)
 
@@ -176,8 +176,8 @@ def deploymentScreen(window):
     for token in TOKENS:
         token.draw(window)
 
-    updateGameLogic(pGameGrid, pFleet, pGameLogic)
-    updateGameLogic(cGameGrid, cFleet, cGameLogic)
+    updateGameLogic(pGameGrid, pFleet, pGameLogic, CELLSIZE)
+    updateGameLogic(cGameGrid, cFleet, cGameLogic, CELLSIZE)
 
 
 def endScreen(window):
