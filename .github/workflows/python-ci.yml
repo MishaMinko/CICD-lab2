@@ -12,10 +12,10 @@ jobs:
     steps:
     - uses: actions/checkout@v2
 
-    - name: Set up Python 3.8
+    - name: Set up Python 3.12.2
       uses: actions/setup-python@v2
       with:
-        python-version: 3.8
+        python-version: 3.12.2
 
     - name: Install dependencies
       run: |
@@ -24,8 +24,20 @@ jobs:
 
     - name: Run tests
       run: |
-        pytest
+        pytest --html=pytest_report.html
 
     - name: Lint code
       run: |
-        flake8
+        flake8 --format=html --htmldir=flake8_report
+
+    - name: Upload test report
+      uses: actions/upload-artifact@v2
+      with:
+        name: test-reports
+        path: pytest_report.html
+
+    - name: Upload lint report
+      uses: actions/upload-artifact@v2
+      with:
+        name: lint-reports
+        path: flake8_report
