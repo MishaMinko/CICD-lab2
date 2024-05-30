@@ -55,3 +55,11 @@ def test_ship_rotateImageAndRect(pygame_init, globals, ship_data):
     ship.rotateShip(doRotation=True)
     ship.rotateImageAndRect()
     assert ship.image == ship.vImage
+
+def test_ship_checkForCollisions(pygame_init, globals, ship_data):
+    name, img, pos, size = ship_data
+    ship = Ship(globals, name, img, pos, size)
+    ship2 = Ship(globals, name, img, pos, size)
+    ship3 = Ship(globals, name, img, (50, 100), size)
+    assert ship.checkForCollisions([ship, ship2]) == True
+    assert ship.checkForCollisions([ship, ship3]) == False
