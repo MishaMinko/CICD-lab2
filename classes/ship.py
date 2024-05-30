@@ -48,15 +48,12 @@ class Ship:
 
     def rotateShip(self, doRotation=False):
         if self.active or doRotation == True:
-            if self.rotation == False:
-                self.rotation = True
-            else:
-                self.rotation = False
+            self.rotation = not self.rotation
             self.rotateImageAndRect()
 
 
     def rotateImageAndRect(self):
-        if self.rotation == True:
+        if self.rotation:
             self.image = self.hImage
             self.rect = self.hImageRect
         else:

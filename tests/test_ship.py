@@ -10,8 +10,12 @@ def pygame_init():
 
 @pytest.fixture
 def globals():
+    def load_image_mock(path, size):
+        surface = pygame.Surface(size)
+        return surface
+
     return {
-        'loadImage': pygame.image.load,
+        'loadImage': load_image_mock,
         'updateGameScreen': pygame.display.update,
         'GAMESCREEN': pygame.display.set_mode((800, 600)),
     }
@@ -35,7 +39,8 @@ def gun_data():
 def test_ship_rotateShip(pygame_init, globals, ship_data):
     name, img, pos, size = ship_data
     ship = Ship(globals, name, img, pos, size)
-    ship.rotateShip()
-    assert ship.rotation == True
-    ship.rotateShip()
-    assert ship.rotation == False
+    assert ship.rotation == False, f"Expected initial rotation to be False, but got {ship.rotation}"
+    ship.rotateShip(doRotation=True)
+    assert ship.rotation == True, f"Expected rotation to be True after first rotate, but got {ship.rotation}"
+    ship.rotateShip(doRotation=True)
+    assert ship.rotation == False, f"Expected rotation to be False after second rotate, but got {ship.rotation}"
