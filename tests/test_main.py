@@ -40,3 +40,9 @@ def fleet():
     for name in FLEET.keys():
         fleet.append(Ship(globals(),name, FLEET[name][1], FLEET[name][2], FLEET[name][3], FLEET[name][4], FLEET[name][5], FLEET[name][6], FLEET[name][7]))
     return fleet
+
+def test_createGameGrid(game_grid):
+    assert len(game_grid) == 10
+    assert len(game_grid[0]) == 10
+    assert game_grid[0][0] == (0, 0)
+    assert game_grid[9][9] == (450, 450)
