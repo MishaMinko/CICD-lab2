@@ -70,3 +70,9 @@ def test_randomizeShipPositions(pygame_init, game_grid, fleet):
     randomizeShipPositions(fleet, game_grid)
     for ship in fleet:
         assert ship.rect.topleft in [pos for row in game_grid for pos in row]
+
+def test_checkForWinners():
+    grid = [[' ' for _ in range(10)] for _ in range(10)]
+    assert checkForWinners(grid) == True
+    grid[0][0] = 'O'
+    assert checkForWinners(grid) == False
