@@ -2,11 +2,13 @@ import pygame
 import pytest
 from classes.player import Player
 
+
 @pytest.fixture(scope="module")
 def pygame_init():
     pygame.init()
     yield
     pygame.quit()
+
 
 @pytest.fixture
 def globals():
@@ -20,6 +22,7 @@ def globals():
         'CELLSIZE': 50
     }
 
+
 def test_makeAttack_hit(pygame_init, globals):
     player = Player(globals)
     logicgrid = [[' ' for _ in range(10)] for _ in range(10)]
@@ -29,6 +32,7 @@ def test_makeAttack_hit(pygame_init, globals):
     assert logicgrid[0][0] == 'X', "Expected 'X' in logicgrid[0][0] after making a hit"
     assert not player.turn, "Player turn should be set to False after making a hit"
     assert any(token.action == 'Hit' for token in globals['TOKENS']), "A 'Hit' token should be added"
+
 
 def test_makeAttack_miss(pygame_init, globals):
     player = Player(globals)
@@ -40,6 +44,7 @@ def test_makeAttack_miss(pygame_init, globals):
     assert not player.turn, "Player turn should be set to False after making a miss"
     assert any(token.action == 'Hit' for token in globals['TOKENS']), "A 'Hit' token should be added"
 
+
 def test_makeAttack_out_grid(pygame_init, globals):
     player = Player(globals)
     logicgrid = [[' ' for _ in range(10)] for _ in range(10)]
@@ -48,6 +53,7 @@ def test_makeAttack_out_grid(pygame_init, globals):
     player.makeAttack(globals['pGameGrid'], logicgrid)
     assert all(row == [' ' for _ in range(10)] for row in logicgrid), "No changes should be made to logicgrid"
     assert player.turn, "Player turn should not be changed if attack is outside the grid"
+
 
 def test_makeAttack_already_hit(pygame_init, globals):
     player = Player(globals)

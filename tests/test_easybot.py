@@ -3,11 +3,13 @@ import pygame
 import random
 from classes.easybot import EasyComputer
 
+
 @pytest.fixture(scope="module")
 def pygame_init():
     pygame.init()
     yield
     pygame.quit()
+
 
 @pytest.fixture
 def globals():
@@ -21,9 +23,11 @@ def globals():
         'CELLSIZE': 50
     }
 
+
 @pytest.fixture
 def gamelogic():
     return [[' ' for _ in range(10)] for _ in range(10)]
+
 
 @pytest.mark.parametrize("msg", [
     "Thinking",
@@ -34,6 +38,7 @@ def test_computerStatus(pygame_init, globals, msg):
     easy_computer = EasyComputer(globals)
     result = easy_computer.computerStatus(msg)
     assert isinstance(result, pygame.Surface), f"Expected pygame.Surface, but got {type(result)}"
+
 
 def test_makeAttack(pygame_init, globals, gamelogic):
     easy_computer = EasyComputer(globals)
@@ -47,6 +52,7 @@ def test_makeAttack(pygame_init, globals, gamelogic):
     assert turn_before_attack != result, "The turn status should be updated after the attack."
     assert gamelogic[0][0] in ['T', 'X'], "The game logic should be updated at the attack coordinates."
     assert len(globals['TOKENS']) > 0, "The tokens list should be updated after the attack."
+
 
 @pytest.mark.parametrize("initial_value, expected", [
     (' ', 'X'),
