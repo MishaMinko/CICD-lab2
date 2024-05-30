@@ -74,3 +74,15 @@ def test_ship_magnetToGridEdge(pygame_init, globals, ship_data):
     ship.magnetToGridEdge(gridCoords, CELLSIZE)
     assert ship.rect.centerx == 450
     assert ship.rect.bottom == 500
+
+def test_ship_magnetToGrid(pygame_init, globals, ship_data):
+    name, img, pos, size = ship_data
+    ship = Ship(globals, name, img, pos, size)
+    gridCoords = [[(i*50, j*50) for i in range(10)] for j in range(10)]
+    CELLSIZE = 50
+    ship.rect.left = 101
+    ship.rect.top = 79
+    ship.rotation = True
+    ship.magnetToGrid(gridCoords, CELLSIZE)
+    assert ship.rect.centerx == 125
+    assert ship.rect.centery == 75
