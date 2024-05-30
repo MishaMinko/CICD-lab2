@@ -44,3 +44,14 @@ def test_ship_rotateShip(pygame_init, globals, ship_data):
     assert ship.rotation == True, f"Expected rotation to be True after first rotate, but got {ship.rotation}"
     ship.rotateShip(doRotation=True)
     assert ship.rotation == False, f"Expected rotation to be False after second rotate, but got {ship.rotation}"
+
+def test_ship_rotateImageAndRect(pygame_init, globals, ship_data):
+    name, img, pos, size = ship_data
+    ship = Ship(globals, name, img, pos, size)
+    assert ship.image == ship.vImage
+    ship.rotateShip(doRotation=True)
+    ship.rotateImageAndRect()
+    assert ship.image == ship.hImage
+    ship.rotateShip(doRotation=True)
+    ship.rotateImageAndRect()
+    assert ship.image == ship.vImage
