@@ -82,7 +82,7 @@ def test_ship_checkForCollisions(pygame_init, globals, ship_data):
 def test_ship_magnetToGridEdge(pygame_init, globals, ship_data):
     name, img, pos, size = ship_data
     ship = Ship(globals, name, img, pos, size)
-    gridCoords = [[(i*50, j*50) for i in range(10)] for j in range(10)]
+    gridCoords = [[(i * 50, j * 50) for i in range(10)] for j in range(10)]
     CELLSIZE = 50
     ship.rect.right = 475
     ship.rect.bottom = 530
@@ -94,7 +94,7 @@ def test_ship_magnetToGridEdge(pygame_init, globals, ship_data):
 def test_ship_magnetToGrid(pygame_init, globals, ship_data):
     name, img, pos, size = ship_data
     ship = Ship(globals, name, img, pos, size)
-    gridCoords = [[(i*50, j*50) for i in range(10)] for j in range(10)]
+    gridCoords = [[(i * 50, j * 50) for i in range(10)] for j in range(10)]
     CELLSIZE = 50
     ship.rect.left = 101
     ship.rect.top = 79
