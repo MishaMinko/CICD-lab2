@@ -46,3 +46,8 @@ def test_createGameGrid(game_grid):
     assert len(game_grid[0]) == 10
     assert game_grid[0][0] == (0, 0)
     assert game_grid[9][9] == (450, 450)
+
+def test_createGameLogic(game_logic):
+    assert len(game_logic) == 10
+    assert len(game_logic[0]) == 10
+    assert game_logic[0][0] == ' '
