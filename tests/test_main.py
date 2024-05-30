@@ -1,11 +1,13 @@
 import pygame, os, pytest
 from main import createGameGrid, createGameLogic, updateGameLogic, randomizeShipPositions, checkForWinners, loadImage, sortFleet, Ship
 
+
 @pytest.fixture(scope="module")
 def pygame_init():
     pygame.init()
     yield
     pygame.quit()
+
 
 @pytest.fixture
 def globals():
@@ -16,15 +18,18 @@ def globals():
         'CELLSIZE': 50
     }
 
+
 @pytest.fixture
 def game_grid():
     rows, cols, cellsize, pos = 10, 10, 50, (0, 0)
     return createGameGrid(rows, cols, cellsize, pos)
 
+
 @pytest.fixture
 def game_logic():
     rows, cols = 10, 10
     return createGameLogic(rows, cols)
+
 
 @pytest.fixture
 def fleet(globals):
@@ -50,32 +55,38 @@ def fleet(globals):
         fleet.append(Ship(globals,name, FLEET[name][1], FLEET[name][2], FLEET[name][3], FLEET[name][4], FLEET[name][5], FLEET[name][6], FLEET[name][7]))
     return fleet
 
+
 def test_createGameGrid(game_grid):
     assert len(game_grid) == 10
     assert len(game_grid[0]) == 10
     assert game_grid[0][0] == (0, 0)
     assert game_grid[9][9] == (450, 450)
 
+
 def test_createGameLogic(game_logic):
     assert len(game_logic) == 10
     assert len(game_logic[0]) == 10
     assert game_logic[0][0] == ' '
+
 
 def test_updateGameLogic(pygame_init, game_grid, game_logic, fleet, globals):
     CELLSIZE = globals['CELLSIZE']
     updateGameLogic(game_grid, fleet, game_logic, CELLSIZE)
     assert game_logic[0][0] == 'O' or game_logic[0][0] == ' '
 
+
 def test_randomizeShipPositions(pygame_init, game_grid, fleet):
     randomizeShipPositions(fleet, game_grid)
     for ship in fleet:
         assert ship.rect.topleft in [pos for row in game_grid for pos in row]
+
 
 def test_checkForWinners():
     grid = [[' ' for _ in range(10)] for _ in range(10)]
     assert checkForWinners(grid) == True
     grid[0][0] = 'O'
     assert checkForWinners(grid) == False
+
 
 def test_sortFleet():
     shiplist = ['ship1', 'ship2', 'ship3']

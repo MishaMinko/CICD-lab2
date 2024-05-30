@@ -2,19 +2,23 @@ import pytest
 import pygame
 from classes.button import Button
 
+
 @pytest.fixture(scope="module")
 def pygame_init():
     pygame.init()
     yield
     pygame.quit()
 
+
 @pytest.fixture
 def dummy_surface():
     return pygame.Surface((100, 50))
 
+
 @pytest.fixture
 def dummy_window():
     return pygame.Surface((200, 100))
+
 
 @pytest.fixture
 def button(dummy_surface):
@@ -22,6 +26,7 @@ def button(dummy_surface):
     pos = (0, 0)
     msg = "Test"
     return Button(dummy_surface, size, pos, msg)
+
 
 @pytest.mark.parametrize("msg", [
     "Hello World",
@@ -38,6 +43,7 @@ def test_addText(pygame_init, button, msg):
     except Exception as e:
         pytest.fail(f"Function raised an exception: {e}")
 
+
 def test_focusOnButton(pygame_init, button, dummy_window):
     try:
         pygame.mouse.set_pos((50, 25))
@@ -46,6 +52,7 @@ def test_focusOnButton(pygame_init, button, dummy_window):
         button.focusOnButton(dummy_window)
     except Exception as e:
         pytest.fail(f"Function raised an exception: {e}")
+
 
 @pytest.mark.parametrize("initial_name, gameStatus, expected_name", [
     ("Deploy", False, "Quit"),
@@ -61,6 +68,7 @@ def test_updateButtons(pygame_init, dummy_surface, initial_name, gameStatus, exp
             pytest.fail(f"Expected name '{expected_name}', but got '{button.name}'")
     except Exception as e:
         pytest.fail(f"Function raised an exception: {e}")
+
 
 def test_draw(pygame_init, button, dummy_window):
     try:
