@@ -1,5 +1,5 @@
 import pygame, random, os, pytest
-from main import createGameGrid, createGameLogic, updateGameLogic, randomizeShipPositions, checkForWinners, loadImage, Ship
+from main import createGameGrid, createGameLogic, updateGameLogic, randomizeShipPositions, checkForWinners, loadImage, sortFleet, Ship
 
 @pytest.fixture(scope="module")
 def pygame_init():
@@ -51,3 +51,7 @@ def test_createGameLogic(game_logic):
     assert len(game_logic) == 10
     assert len(game_logic[0]) == 10
     assert game_logic[0][0] == ' '
+
+def test_updateGameLogic(game_grid, game_logic, fleet):
+    updateGameLogic(game_grid, fleet, game_logic)
+    assert game_logic[0][0] == 'O' or game_logic[0][0] == ' '
