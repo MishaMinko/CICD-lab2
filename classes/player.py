@@ -1,11 +1,12 @@
 import pygame
 from classes.tokens import Token
 
+
 class Player:
     def __init__(self, globals):
         self.globals = globals
         self.turn = True
-    
+
     def makeAttack(self, grid, logicgrid):
         posX, posY = pygame.mouse.get_pos()
         if posX >= grid[0][0][0] and posX <= grid[0][-1][0] + 50 and posY >= grid[0][0][1] and posY <= grid[-1][0][1] + 50:

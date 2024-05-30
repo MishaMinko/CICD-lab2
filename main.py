@@ -1,4 +1,4 @@
-#Програма написана Фурсенком Михайлом та Полярушом Данилом групи ІПЗ-22 та Іллею Кравчуком ІПЗ-24
+# Програма написана Фурсенком Михайлом та Полярушом Данилом групи ІПЗ-22 та Іллею Кравчуком ІПЗ-24
 from classes.ship import Ship
 from classes.button import Button
 from classes.player import Player
@@ -8,7 +8,7 @@ import pygame, random, os
 pygame.init()
 
 
-#game functions
+# game functions
 def createGameGrid(rows, cols, cellsize, pos):
     startX = pos[0]
     startY = pos[1]
@@ -89,10 +89,10 @@ def randomizeShipPositions(shiplist, gamegrid):
             rotateShip = random.choice([True, False])
             if rotateShip == True:
                 yAxis = random.randint(0, 9)
-                xAxis = random.randint(0, 9 - (ship.hImage.get_width()//50))
+                xAxis = random.randint(0, 9 - (ship.hImage.get_width() // 50))
                 ship.rotateShip(True)
             else:
-                yAxis = random.randint(0, 9 - (ship.vImage.get_height()//50))
+                yAxis = random.randint(0, 9 - (ship.vImage.get_height() // 50))
                 xAxis = random.randint(0, 9)
             ship.rect.topleft = gamegrid[yAxis][xAxis]
             if len(placedShips) > 0:
@@ -104,13 +104,13 @@ def randomizeShipPositions(shiplist, gamegrid):
                         validPosition = True
             else:
                 validPosition = True
-        placedShips.append(ship)        
+        placedShips.append(ship)
 
 
 def createFleet():
     fleet = []
     for name in FLEET.keys():
-        fleet.append(Ship(globals(),name, FLEET[name][1], FLEET[name][2], FLEET[name][3], FLEET[name][4], FLEET[name][5], FLEET[name][6], FLEET[name][7]))
+        fleet.append(Ship(globals(), name, FLEET[name][1], FLEET[name][2], FLEET[name][3], FLEET[name][4], FLEET[name][5], FLEET[name][6], FLEET[name][7]))
     return fleet
 
 
@@ -205,12 +205,13 @@ def updateGameScreen(window):
 
     pygame.display.update()
 
+
 def main():
     global SCREENWIDTH, SCREENHEIGHT, ROWS, COLS, CELLSIZE, DEPLOYMENT, TURNTIMER, GAMESTATE, GAMESCREEN
     global FLEET, STAGE, MAINMENUIMAGE, ENDSCREENIMAGE, BUTTONS, difficulty_buttons, REDTOKEN, GREENTOKEN, BLUETOKEN, TOKENS
     global pGameGrid, pGameLogic, pFleet, cGameGrid, cGameLogic, cFleet, player1, computer, winner
 
-    #game settings
+    # game settings
     SCREENWIDTH = 1260
     SCREENHEIGHT = 960
     ROWS = 10
@@ -220,7 +221,7 @@ def main():
     TURNTIMER = pygame.time.get_ticks()
     GAMESTATE = 'Main Menu'
 
-    #pygame display
+    # pygame display
     GAMESCREEN = pygame.display.set_mode((SCREENWIDTH, SCREENHEIGHT))
     pygame.display.set_caption('BattleShip')
 
@@ -261,7 +262,7 @@ def main():
     BLUETOKEN = loadImage(os.path.join(current_directory, 'assets', 'images', 'tokens', 'bluetoken.png'), (CELLSIZE, CELLSIZE))
     TOKENS = []
 
-    #creating game variables
+    # creating game variables
     pGameGrid = createGameGrid(ROWS, COLS, CELLSIZE, (50, 50))
     pGameLogic = createGameLogic(ROWS, COLS)
     pFleet = createFleet()
@@ -278,7 +279,7 @@ def main():
 
     winner = None
 
-    #game flow
+    # game flow
     RUNGAME = True
     while RUNGAME:
         for event in pygame.event.get():
@@ -321,12 +322,9 @@ def main():
                                     randomizeShipPositions(cFleet, cGameGrid)
                                 elif button.name == 'Reset':
                                     resetShips(pFleet)
-                
                 elif event.button == 2:
                     printGameLogic()
-        
         updateGameScreen(GAMESCREEN)
-
         if GAMESTATE == STAGE[1] and DEPLOYMENT != True:
             player1Wins = checkForWinners(cGameLogic)
             computerWins = checkForWinners(pGameLogic)
@@ -340,6 +338,7 @@ def main():
         takeTurns(player1, computer)
 
     pygame.quit()
+
 
 if __name__ == "__main__":
     main()

@@ -3,11 +3,11 @@ import pygame
 from classes.easybot import EasyComputer
 from classes.tokens import Token
 
+
 class HardComputer(EasyComputer):
     def __init__(self, globals):
         super().__init__(globals)
         self.moves = []
-
 
     def makeAttack(self, gamelogic):
         if len(self.moves) == 0:
@@ -39,7 +39,6 @@ class HardComputer(EasyComputer):
                 self.moves.remove((rowX, rowY))
                 self.turn = False
         return self.turn
-
 
     def generateMoves(self, coords, grid, lstDir=None):
         x, y = coords
