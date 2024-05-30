@@ -8,6 +8,15 @@ def pygame_init():
     pygame.quit()
 
 @pytest.fixture
+def globals():
+    return {
+        'loadImage': loadImage,
+        'updateGameScreen': pygame.display.update,
+        'GAMESCREEN': pygame.display.set_mode((800, 600)),
+        'CELLSIZE': 50
+    }
+
+@pytest.fixture
 def game_grid():
     rows, cols, cellsize, pos = 10, 10, 50, (0, 0)
     return createGameGrid(rows, cols, cellsize, pos)
@@ -18,8 +27,8 @@ def game_logic():
     return createGameLogic(rows, cols)
 
 @pytest.fixture
-def fleet():
-    current_directory = os.path.dirname(__file__)
+def fleet(globals):
+    current_directory = os.path.dirname(os.path.dirname(__file__))
     FLEET = {
         'battleship': ['battleship', os.path.join(current_directory, 'assets', 'images', 'ships', 'battleship', 'battleship.png'), (125, 600), (40, 195),
                        4, os.path.join(current_directory, 'assets', 'images', 'ships', 'battleship', 'battleshipgun.png'), (0.4, 0.125), [-0.525, -0.34, 0.67, 0.49]],
@@ -38,7 +47,7 @@ def fleet():
     }
     fleet = []
     for name in FLEET.keys():
-        fleet.append(Ship(globals(),name, FLEET[name][1], FLEET[name][2], FLEET[name][3], FLEET[name][4], FLEET[name][5], FLEET[name][6], FLEET[name][7]))
+        fleet.append(Ship(globals,name, FLEET[name][1], FLEET[name][2], FLEET[name][3], FLEET[name][4], FLEET[name][5], FLEET[name][6], FLEET[name][7]))
     return fleet
 
 def test_createGameGrid(game_grid):
@@ -52,6 +61,7 @@ def test_createGameLogic(game_logic):
     assert len(game_logic[0]) == 10
     assert game_logic[0][0] == ' '
 
-def test_updateGameLogic(game_grid, game_logic, fleet):
-    updateGameLogic(game_grid, fleet, game_logic)
+def test_updateGameLogic(pygame_init, game_grid, game_logic, fleet, globals):
+    CELLSIZE = globals['CELLSIZE']
+    updateGameLogic(game_grid, fleet, game_logic, CELLSIZE)
     assert game_logic[0][0] == 'O' or game_logic[0][0] == ' '
